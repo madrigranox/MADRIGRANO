@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mock Demo - FAQ & IA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fafafa;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-left: 1px solid #eaeaea;
+            border-right: 1px solid #eaeaea;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            padding: 20px;
+            border-bottom: 1px solid #eaeaea;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .bot-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #14b8a6, #0d9488);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .messages {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .msg {
+            max-width: 80%;
+            padding: 16px;
+            border-radius: 12px;
+            line-height: 1.5;
+        }
+
+        .msg.bot {
+            background: #f0fdfa;
+            color: #0f766e;
+            align-self: flex-start;
+            border-bottom-left-radius: 0;
+        }
+
+        .msg.user {
+            background: #f4f4f5;
+            color: #27272a;
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
+        }
+
+        .input-area {
+            padding: 20px;
+            border-top: 1px solid #eaeaea;
+            display: flex;
+            gap: 12px;
+        }
+
+        input {
+            flex: 1;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #d4d4d8;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        button {
+            padding: 0 24px;
+            background: #14b8a6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .sources {
+            margin-top: 12px;
+            font-size: 0.8rem;
+            color: #64748b;
+            padding-top: 12px;
+            border-top: 1px dashed #ccfbf1;
+        }
+
+        .sources a {
+            color: #0d9488;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chat-container">
+        <div class="header">
+            <div class="bot-avatar">AI</div>
+            <div>
+                <div style="font-weight: 600; color: #0f766e;">Assistente Corporativo (MOCK)</div>
+                <div style="font-size: 0.85rem; color: #71717a;">Base de Conhecimento RAG Integrada</div>
+            </div>
+        </div>
+        <div class="messages">
+            <div class="msg bot">
+                Olá! Eu sou o assistente de processos operacionais. Como posso guiar sua jornada hoje?
+            </div>
+            <div class="msg user">
+                Qual é o procedimento padrão para atualização de certificados de embarque (CBSP)?
+            </div>
+            <div class="msg bot">
+                O procedimento padrão requer as seguintes etapas:
+                <br><br>
+                1. Emissão do certificado original assinado e com QR Code de validação.<br>
+                2. Submissão via Portal de Logística na aba <strong>Meus Documentos</strong>.<br>
+                3. A validação ocorre em até 48h úteis pela equipe de SSMA.<br>
+                <br>
+                <div class="sources">
+                    Fonte extraída de: <a href="#">Manual_Embarque_v2.pdf (Pág 12)</a>
+                </div>
+            </div>
+        </div>
+        <div class="input-area">
+            <input type="text" placeholder="Digite sua dúvida sobre processos...">
+            <button>Enviar</button>
+        </div>
+    </div>
+</body>
+
+</html>

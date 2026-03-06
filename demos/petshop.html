@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>PetShop Patinhas Felizes — Banho, Tosa & Amor</title>
+    <meta name="description"
+        content="Seu pet merece o melhor cuidado com carinho e profissionalismo. PetShop Patinhas Felizes — banho, tosa, veterinário e muito amor.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #FFF5F8;
+            --bg-soft: #FFF0F3;
+            --white: #FFFFFF;
+            --pink: #FF6B9D;
+            --pink-light: #FFB3CC;
+            --pink-soft: #FFE0EB;
+            --mint: #7DDFBE;
+            --mint-soft: #D4F5E9;
+            --lavender: #C5A3FF;
+            --lavender-soft: #EDE0FF;
+            --peach: #FFB088;
+            --sky: #87CEEB;
+            --text: #2D1B36;
+            --text-muted: #8B7394;
+            --shadow: rgba(255, 107, 157, 0.08);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Nunito', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ══════ FLOATING PAWS ══════ */
+        .paws-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .paw {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0.06;
+            animation: floatPaw var(--dur, 15s) linear infinite;
+            animation-delay: var(--d, 0s);
+        }
+
+        @keyframes floatPaw {
+            0% {
+                transform: translateY(110vh) rotate(0deg);
+            }
+
+            100% {
+                transform: translateY(-20vh) rotate(360deg);
+            }
+        }
+
+        /* ══════ NAVBAR ══════ */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 0 20px;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 245, 248, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(255, 107, 157, 0.06);
+            transition: all 0.4s ease;
+        }
+
+        .nav.scrolled {
+            background: rgba(255, 245, 248, 0.95);
+            box-shadow: 0 2px 30px var(--shadow);
+        }
+
+        .nav-logo {
+            font-weight: 900;
+            font-size: 1.05rem;
+            color: var(--text);
+        }
+
+        .nav-logo span {
+            color: var(--pink);
+        }
+
+        .nav-cta {
+            background: var(--pink);
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 100px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Nunito', sans-serif;
+            box-shadow: 0 2px 12px rgba(255, 107, 157, 0.2);
+        }
+
+        .nav-cta:active {
+            transform: scale(0.95);
+        }
+
+        /* ══════ HERO CUTOUT AND BUBBLES ══════ */
+        .hero-img-wrap {
+            position: relative;
+            width: min(480px, 90vw);
+            margin: 0 auto 28px;
+        }
+
+        .hero-cutout {
+            width: 100%;
+            height: auto;
+            position: relative;
+            z-index: 10;
+            filter: drop-shadow(0 30px 40px rgba(139, 115, 148, 0.25)) drop-shadow(0 10px 15px rgba(255, 107, 157, 0.15));
+            animation: heroFloat 5s ease-in-out infinite alternate;
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 1) 0%, rgba(255, 120, 180, 0.6) 20%, rgba(100, 200, 255, 0.5) 45%, rgba(255, 255, 255, 0.8) 100%);
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 1),
+                inset 0 0 12px rgba(255, 80, 140, 0.8),
+                0 8px 16px rgba(255, 107, 157, 0.4);
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            animation: bubbleRise var(--dur, 4s) cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+            animation-delay: var(--d, 0s);
+            z-index: 5;
+        }
+
+        @keyframes bubbleRise {
+            0% {
+                transform: translate(0, 10px) scale(0.3);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 0.9;
+            }
+
+            70% {
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: translate(var(--x, 20px), -120px) scale(1.3);
+                opacity: 0;
+            }
+        }
+
+        @keyframes heroFloat {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-12px);
+            }
+        }
+
+        /* ══════ HERO ══════ */
+        .hero-wrap {
+            height: 100vh;
+            position: relative;
+        }
+
+        .hero {
+            position: relative;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 80px 24px 40px;
+            overflow: hidden;
+            background: radial-gradient(ellipse at center top, rgba(255, 107, 157, 0.12) 0%, transparent 60%);
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: white;
+            border: 1px solid var(--pink-soft);
+            padding: 5px 14px;
+            border-radius: 100px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: var(--pink);
+            letter-spacing: 0.06em;
+            margin-bottom: 14px;
+            opacity: 0;
+            animation: fadeUp 0.6s 0.2s forwards;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-badge {
+            transform: translateY(12px);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 9vw, 3.8rem);
+            font-weight: 900;
+            line-height: 1.05;
+            margin-bottom: 14px;
+            color: var(--text);
+            opacity: 0;
+            animation: fadeUp 0.6s 0.35s forwards;
+            transform: translateY(12px);
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            color: var(--pink);
+        }
+
+        .hero-sub {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 340px;
+            margin-bottom: 24px;
+            opacity: 0;
+            animation: fadeUp 0.6s 0.5s forwards;
+            transform: translateY(12px);
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 10px;
+            opacity: 0;
+            animation: fadeUp 0.6s 0.65s forwards;
+            transform: translateY(12px);
+        }
+
+        .btn-pink {
+            background: var(--pink);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 100px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(255, 107, 157, 0.25);
+            transition: all 0.3s ease;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .btn-pink:active {
+            transform: scale(0.96);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--pink-soft);
+            padding: 14px 24px;
+            border-radius: 100px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        /* ══════ WAVE SEPARATOR ══════ */
+        .wave {
+            width: 100%;
+            line-height: 0;
+            overflow: hidden;
+        }
+
+        .wave svg {
+            display: block;
+            width: 100%;
+            height: 40px;
+        }
+
+        /* ══════ SECTIONS ══════ */
+        .section {
+            padding: 80px 24px;
+            position: relative;
+        }
+
+        .section-inner {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--pink);
+            margin-bottom: 12px;
+        }
+
+        .section h2 {
+            font-size: clamp(1.8rem, 7vw, 2.6rem);
+            font-weight: 900;
+            color: var(--text);
+            line-height: 1.1;
+            margin-bottom: 14px;
+        }
+
+        .section h2 em {
+            font-style: normal;
+            color: var(--pink);
+        }
+
+        .section p.lead {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+        }
+
+        /* ══════ REVEAL ══════ */
+        .rv {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .rv.vis {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ══════ SERVICES ══════ */
+        .services {
+            background: white;
+        }
+
+        .serv-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .serv-card {
+            background: var(--bg);
+            border-radius: 24px;
+            padding: 24px 16px;
+            text-align: center;
+            border: 1.5px solid transparent;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .serv-card:nth-child(1) {
+            border-color: var(--pink-soft);
+        }
+
+        .serv-card:nth-child(2) {
+            border-color: var(--mint-soft);
+        }
+
+        .serv-card:nth-child(3) {
+            border-color: var(--lavender-soft);
+        }
+
+        .serv-card:nth-child(4) {
+            border-color: rgba(255, 176, 136, 0.2);
+        }
+
+        .serv-card:active {
+            transform: scale(0.96);
+        }
+
+        .serv-emoji {
+            font-size: 2.4rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .serv-card h4 {
+            font-size: 0.9rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .serv-card p {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .serv-tag {
+            display: inline-block;
+            margin-top: 10px;
+            background: white;
+            font-size: 0.62rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 100px;
+            color: var(--pink);
+        }
+
+        .serv-card:nth-child(2) .serv-tag {
+            color: #059669;
+        }
+
+        .serv-card:nth-child(3) .serv-tag {
+            color: #8B5CF6;
+        }
+
+        .serv-card:nth-child(4) .serv-tag {
+            color: #EA580C;
+        }
+
+        /* ══════ IMAGE SPLIT ══════ */
+        .about-pet {
+            background: var(--bg-soft);
+            overflow: hidden;
+        }
+
+        .about-pet-img {
+            width: 100%;
+            border-radius: 28px;
+            overflow: hidden;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 40px var(--shadow);
+        }
+
+        .about-pet-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .counters-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 28px;
+        }
+
+        .counter-item {
+            background: white;
+            border-radius: 20px;
+            padding: 20px 12px;
+            text-align: center;
+            box-shadow: 0 2px 12px var(--shadow);
+        }
+
+        .counter-num {
+            font-size: 1.8rem;
+            font-weight: 900;
+            display: block;
+        }
+
+        .counter-num.pink {
+            color: var(--pink);
+        }
+
+        .counter-num.mint {
+            color: #10B981;
+        }
+
+        .counter-num.lav {
+            color: var(--lavender);
+        }
+
+        .counter-lbl {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+            letter-spacing: 0.02em;
+        }
+
+        /* ══════ QUOTE SECTION ══════ */
+        .quote-section {
+            padding: 100px 24px;
+            text-align: center;
+            background: white;
+            overflow: hidden;
+        }
+
+        .quote-text {
+            font-size: clamp(1.6rem, 7vw, 2.8rem);
+            font-weight: 900;
+            color: var(--text);
+            line-height: 1.2;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .quote-text .word {
+            display: inline-block;
+            opacity: 0.08;
+            transition: opacity 0.4s ease, transform 0.4s ease, color 0.4s ease;
+            transform: translateY(4px);
+        }
+
+        .quote-text .word.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .quote-text .word.pink {
+            color: var(--pink);
+        }
+
+        .quote-text .word.mint {
+            color: #10B981;
+        }
+
+        .quote-text .word.lav {
+            color: var(--lavender);
+        }
+
+        /* ══════ GALLERY ══════ */
+        .gallery {
+            background: var(--bg);
+            padding: 80px 0;
+            overflow: hidden;
+        }
+
+        .gallery .section-inner {
+            padding: 0 24px;
+        }
+
+        .gal-track {
+            display: flex;
+            gap: 14px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding: 0 24px 16px;
+            margin-top: 24px;
+            scrollbar-width: none;
+        }
+
+        .gal-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .gal-card {
+            flex: 0 0 calc(75vw);
+            max-width: 300px;
+            border-radius: 24px;
+            overflow: hidden;
+            scroll-snap-align: center;
+            background: white;
+            box-shadow: 0 4px 20px var(--shadow);
+            transition: transform 0.4s ease;
+        }
+
+        .gal-card:active {
+            transform: scale(0.97);
+        }
+
+        .gal-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gal-card-info {
+            padding: 16px;
+        }
+
+        .gal-card-info h4 {
+            font-size: 0.92rem;
+            font-weight: 800;
+            margin-bottom: 3px;
+        }
+
+        .gal-card-info p {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        /* ══════ REVIEWS ══════ */
+        .reviews {
+            background: var(--pink);
+            color: white;
+            padding: 80px 0;
+            overflow: hidden;
+        }
+
+        .reviews .section-tag {
+            color: white;
+        }
+
+        .reviews h2 {
+            color: white;
+        }
+
+        .rev-track {
+            display: flex;
+            gap: 14px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding: 0 24px 16px;
+            margin-top: 24px;
+            scrollbar-width: none;
+        }
+
+        .rev-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .rev-card {
+            flex: 0 0 calc(85vw);
+            max-width: 340px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 26px 22px;
+            scroll-snap-align: center;
+            backdrop-filter: blur(8px);
+        }
+
+        .rev-stars {
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .rev-quote {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            opacity: 0.9;
+            margin-bottom: 16px;
+        }
+
+        .rev-author {
+            font-size: 0.75rem;
+            opacity: 0.5;
+        }
+
+        .rev-author strong {
+            display: block;
+            opacity: 1;
+            font-weight: 700;
+        }
+
+        /* ══════ CTA ══════ */
+        .cta-section {
+            padding: 100px 24px;
+            text-align: center;
+            background: white;
+        }
+
+        .cta-emoji {
+            font-size: 3.5rem;
+            margin-bottom: 16px;
+            display: block;
+            animation: heroFloat 3s ease-in-out infinite alternate;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--pink);
+            color: white;
+            border: none;
+            padding: 16px 36px;
+            border-radius: 100px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 24px rgba(255, 107, 157, 0.25);
+            transition: all 0.3s ease;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .cta-btn:active {
+            transform: scale(0.96);
+        }
+
+        .cta-info {
+            margin-top: 36px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            text-align: left;
+            max-width: 340px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-info .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .cta-info svg {
+            color: var(--pink);
+            flex-shrink: 0;
+        }
+
+        /* ══════ FOOTER ══════ */
+        .pfooter {
+            background: var(--text);
+            color: rgba(255, 255, 255, 0.3);
+            text-align: center;
+            padding: 28px 24px;
+            font-size: 0.72rem;
+        }
+
+        .pfooter span {
+            color: var(--pink-light);
+        }
+
+        /* ══════ RESPONSIVE ══════ */
+        @media (min-width: 640px) {
+            .section-inner {
+                max-width: 560px;
+            }
+
+            .gal-card {
+                flex: 0 0 280px;
+            }
+
+            .rev-card {
+                flex: 0 0 320px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Floating Paws Background -->
+    <div class="paws-bg">
+        <span class="paw" style="left:5%;--dur:18s;--d:0s">🐾</span>
+        <span class="paw" style="left:15%;--dur:22s;--d:3s">🐾</span>
+        <span class="paw" style="left:30%;--dur:16s;--d:7s">🐾</span>
+        <span class="paw" style="left:45%;--dur:20s;--d:2s">🐾</span>
+        <span class="paw" style="left:60%;--dur:24s;--d:5s">🐾</span>
+        <span class="paw" style="left:75%;--dur:17s;--d:9s">🐾</span>
+        <span class="paw" style="left:88%;--dur:21s;--d:4s">🐾</span>
+    </div>
+
+    <nav class="nav" id="nav">
+        <div class="nav-logo">🐾 Patinhas <span>Felizes</span></div>
+        <button class="nav-cta">Agendar</button>
+    </nav>
+
+    <!-- HERO -->
+    <div class="hero-wrap">
+        <section class="hero" id="heroSection">
+            <div class="hero-img-wrap">
+                <img class="hero-cutout" src="../assets/images/demos/gemini-generated.png"
+                    alt="Cachorro na banheira" loading="eager">
+                <!-- Soap Bubbles emerging from bathtub -->
+                <div class="bubble"
+                    style="width: 30px; height: 30px; left: 15%; bottom: 12%; --dur: 4s; --d: 0s; --x: -30px;"></div>
+                <div class="bubble"
+                    style="width: 45px; height: 45px; left: 75%; bottom: 8%; --dur: 5s; --d: 0.5s; --x: 40px;"></div>
+                <div class="bubble"
+                    style="width: 20px; height: 20px; left: 28%; bottom: 5%; --dur: 3s; --d: 1.2s; --x: -15px;"></div>
+                <div class="bubble"
+                    style="width: 35px; height: 35px; left: 65%; bottom: 15%; --dur: 4.5s; --d: 2s; --x: 25px;"></div>
+                <div class="bubble"
+                    style="width: 50px; height: 50px; left: 45%; bottom: 2%; --dur: 6s; --d: 1s; --x: -20px;"></div>
+                <div class="bubble"
+                    style="width: 18px; height: 18px; left: 85%; bottom: 18%; --dur: 3.5s; --d: 0.8s; --x: 10px;"></div>
+                <div class="bubble"
+                    style="width: 25px; height: 25px; left: 5%; bottom: 20%; --dur: 4s; --d: 2.5s; --x: -40px;"></div>
+                <div class="bubble"
+                    style="width: 40px; height: 40px; left: 55%; bottom: 10%; --dur: 5.5s; --d: 1.8s; --x: 35px;"></div>
+            </div>
+
+            <div class="hero-content" id="heroContent">
+                <div class="hero-badge">⭐ +5000 Pets Atendidos</div>
+                <h1>Seu pet<br>merece <em>amor</em>.</h1>
+                <p class="hero-sub">Banho, tosa, veterinário e day care com o carinho profissional que só as Patinhas
+                    Felizes oferece.</p>
+                <div class="hero-btns">
+                    <button class="btn-pink">Agendar Banho</button>
+                    <button class="btn-ghost">Nossos Planos</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- WAVE -->
+    <div class="wave">
+        <svg viewBox="0 0 1440 40" preserveAspectRatio="none">
+            <path fill="#FFFFFF" d="M0,20 C240,40 480,0 720,20 C960,40 1200,0 1440,20 L1440,40 L0,40 Z" />
+        </svg>
+    </div>
+
+    <!-- SERVICES -->
+    <section class="section services">
+        <div class="section-inner">
+            <div class="section-tag rv">🐶 Serviços</div>
+            <h2 class="rv">Cuidado completo<br>para <em>todas as raças</em></h2>
+            <p class="lead rv">Da limpeza até o check-up veterinário, tudo num só lugar.</p>
+            <div class="serv-grid">
+                <div class="serv-card rv"><span class="serv-emoji">🛁</span>
+                    <h4>Banho & Hidratação</h4>
+                    <p>Produtos hipoalergênicos e secagem ozonizada</p><span class="serv-tag">A partir de R$45</span>
+                </div>
+                <div class="serv-card rv"><span class="serv-emoji">✂️</span>
+                    <h4>Tosa Artística</h4>
+                    <p>Estilo e conforto sob medida para cada pelagem</p><span class="serv-tag">A partir de R$60</span>
+                </div>
+                <div class="serv-card rv"><span class="serv-emoji">🏥</span>
+                    <h4>Veterinário</h4>
+                    <p>Consultas, vacinas e exames com equipe especializada</p><span class="serv-tag">A partir de
+                        R$90</span>
+                </div>
+                <div class="serv-card rv"><span class="serv-emoji">🏠</span>
+                    <h4>Day Care</h4>
+                    <p>Creche com monitoramento, brinquedos e socialização</p><span class="serv-tag">A partir de
+                        R$55</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WAVE 2 -->
+    <div class="wave"><svg viewBox="0 0 1440 40" preserveAspectRatio="none">
+            <path fill="var(--bg-soft)" d="M0,20 C360,0 720,40 1080,20 C1260,10 1380,30 1440,20 L1440,40 L0,40 Z" />
+        </svg></div>
+
+    <!-- ABOUT PET -->
+    <section class="section about-pet">
+        <div class="section-inner">
+            <div class="section-tag rv">🐕 Nossa Família</div>
+            <h2 class="rv">Todo pet é<br><em>especial</em> aqui</h2>
+            <div class="about-pet-img rv">
+                <img src="../assets/images/demos/petshop-dogs.png" alt="Cãezinhos fofos da Patinhas Felizes" loading="lazy">
+            </div>
+            <p class="lead rv">Fundada em 2018 por veterinárias apaixonadas, a Patinhas Felizes nasceu de um sonho: um
+                espaço onde cada animal é tratado com respeito, ciência e muito amor. Mais de 5.000 pets já passaram por
+                aqui.</p>
+
+            <div class="counters-row">
+                <div class="counter-item rv"><span class="counter-num pink" data-target="5200">0</span><span
+                        class="counter-lbl">Pets Felizes</span></div>
+                <div class="counter-item rv"><span class="counter-num mint" data-target="98">0</span><span
+                        class="counter-lbl">% Satisfação</span></div>
+                <div class="counter-item rv"><span class="counter-num lav" data-target="4.9">0</span><span
+                        class="counter-lbl">★ Google</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUOTE -->
+    <section class="quote-section" id="quoteSection">
+        <p class="quote-text" id="quoteText">Cada patinha que entra aqui sai mais feliz, mais bonita e com o rabinho
+            abanando 🐕💕</p>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="section gallery">
+        <div class="section-inner">
+            <div class="section-tag rv">📸 Transformações</div>
+            <h2 class="rv">Antes & depois<br>com <em>muito estilo</em></h2>
+        </div>
+        <div class="gal-track">
+            <div class="gal-card"><img src="../assets/images/demos/petshop-hero.png" alt="Cachorrinho tomando banho" loading="lazy">
+                <div class="gal-card-info">
+                    <h4>Thor — Golden Retriever</h4>
+                    <p>Banho spa + hidratação profunda</p>
+                </div>
+            </div>
+            <div class="gal-card"><img src="../assets/images/demos/petshop-dogs.png" alt="Cachorrinhos fofos" loading="lazy">
+                <div class="gal-card-info">
+                    <h4>Turma da Manhã</h4>
+                    <p>Day care com socialização guiada</p>
+                </div>
+            </div>
+            <div class="gal-card"><img src="../assets/images/demos/petshop-hero.png" alt="Pet feliz pós-banho" loading="lazy">
+                <div class="gal-card-info">
+                    <h4>Luna — Shih Tzu</h4>
+                    <p>Tosa artística com laçinho premium</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="reviews">
+        <div class="section-inner">
+            <div class="section-tag rv">💬 Avaliações</div>
+            <h2 class="rv">Histórias reais<br>de amor animal</h2>
+        </div>
+        <div class="rev-track">
+            <div class="rev-card">
+                <div class="rev-stars">⭐⭐⭐⭐⭐</div>
+                <p class="rev-quote">"Minha poodle tinha pavor de banho. Na Patinhas Felizes, em 3 visitas ela já
+                    entrava feliz! A equipe tem uma paciência e um carinho únicos."</p>
+                <div class="rev-author"><strong>Ana Paula M.</strong>Mãe da Mel 🐩</div>
+            </div>
+            <div class="rev-card">
+                <div class="rev-stars">⭐⭐⭐⭐⭐</div>
+                <p class="rev-quote">"O day care salvou minhas viagens! Sei que meu Thor fica feliz, brincando e sendo
+                    cuidado. Eles mandam fotos e vídeos ao longo do dia."</p>
+                <div class="rev-author"><strong>Ricardo Santos</strong>Pai do Thor 🦮</div>
+            </div>
+            <div class="rev-card">
+                <div class="rev-stars">⭐⭐⭐⭐⭐</div>
+                <p class="rev-quote">"Melhor tosa que minha Nina já fez. A tosadora acertou exatamente o corte que pedi.
+                    E o cheirinho que ela volta pra casa... incrível!"</p>
+                <div class="rev-author"><strong>Fernanda Lopes</strong>Mãe da Nina 🐕</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section cta-section">
+        <div class="section-inner">
+            <span class="cta-emoji">🐶</span>
+            <div class="section-tag rv">Agende Agora</div>
+            <h2 class="rv">Pronto pra amar<br>seu pet?</h2>
+            <p class="lead rv" style="text-align:center; max-width:340px; margin:0 auto 24px;">Primeira visita com 15%
+                de desconto. Planos mensais a partir de R$89.</p>
+            <button class="cta-btn rv">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                        d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                </svg>
+                WhatsApp Pet
+            </button>
+            <div class="cta-info rv">
+                <div class="info-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                        <circle cx="12" cy="10" r="3" />
+                    </svg>Av. dos Pets, 720 — Jardim Primavera, SP</div>
+                <div class="info-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>Seg–Sáb: 8h às 19h · Dom: 9h às 14h</div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="pfooter">
+        <span>🐾 Patinhas Felizes</span> · Amor animal profissional<br>
+        <small style="margin-top:6px;display:block;opacity:0.5;">* Página demonstrativa — MADRIGRANO Portfolio</small>
+    </footer>
+
+    <script>
+        (function () {
+            'use strict';
+
+            // Navbar scroll
+            const nav = document.getElementById('nav');
+            window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 60), { passive: true });
+
+            // Reveal observer
+            const obs = new IntersectionObserver(entries => {
+                entries.forEach((e, i) => {
+                    if (e.isIntersecting) {
+                        setTimeout(() => e.target.classList.add('vis'), i * 70);
+                        obs.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+            document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+
+            // Counter animation
+            const counters = document.querySelectorAll('.counter-num[data-target]');
+            let cDone = false;
+            const cObs = new IntersectionObserver(entries => {
+                entries.forEach(e => {
+                    if (e.isIntersecting && !cDone) {
+                        cDone = true;
+                        counters.forEach(el => {
+                            const t = parseFloat(el.dataset.target), dec = t % 1 !== 0, dur = 1200, st = Date.now();
+                            !function tick() {
+                                const p = Math.min((Date.now() - st) / dur, 1), eased = 1 - Math.pow(1 - p, 3), v = eased * t;
+                                el.textContent = t >= 100 ? Math.floor(v).toLocaleString('pt-BR') : dec ? v.toFixed(1) : Math.floor(v);
+                                if (p < 1) requestAnimationFrame(tick);
+                            }();
+                        });
+                    }
+                });
+            }, { threshold: 0.3 });
+            if (counters.length) cObs.observe(counters[0].closest('.counters-row'));
+
+            // Quote word reveal with color
+            const qt = document.getElementById('quoteText');
+            const rawWords = qt.textContent.trim().split(/\s+/);
+            const colorMap = { 'feliz,': 'pink', 'bonita': 'mint', 'abanando': 'lav', '💕': 'pink' };
+            qt.innerHTML = rawWords.map(w => {
+                const c = colorMap[w] || '';
+                return `<span class="word${c ? ' ' + c : ''}">${w}</span>`;
+            }).join(' ');
+            const spans = qt.querySelectorAll('.word');
+            const qs = document.getElementById('quoteSection');
+            function updateQ() {
+                const r = qs.getBoundingClientRect(), wH = innerHeight;
+                const p = Math.max(0, Math.min(1, (wH - r.top) / (wH + r.height)));
+                const n = Math.floor(p * spans.length * 1.8);
+                spans.forEach((s, i) => s.classList.toggle('active', i < n));
+            }
+            window.addEventListener('scroll', updateQ, { passive: true });
+            updateQ();
+
+            // ══════ APPLE-STYLE SCROLL DEPTH & PARALLAX (OTHER ELEMENTS) ══════
+            const depthElements = document.querySelectorAll('.about-pet-img, .gal-card, .rev-card, .serv-card');
+            let aRaf;
+            window.addEventListener('scroll', () => {
+                if (aRaf) cancelAnimationFrame(aRaf);
+                aRaf = requestAnimationFrame(() => {
+                    const wH = window.innerHeight;
+                    const sY = window.scrollY;
+
+                    depthElements.forEach(el => {
+                        const rect = el.getBoundingClientRect();
+                        const p = 1 - (rect.top / wH);
+
+                        if (p > -0.2 && p < 1.2) {
+                            let easeP = Math.max(0, Math.min(1, p));
+
+                            let scale = 0.94 + (0.06 * Math.min(1, easeP * 2));
+                            let rotX = 12 * (1 - Math.min(1, easeP * 2));
+                            let yAnim = 40 * (1 - Math.min(1, easeP * 2));
+
+                            if (easeP > 0.85) {
+                                let leaveP = (easeP - 0.85) * 6.66;
+                                yAnim = -(leaveP * 40);
+                            }
+
+                            el.style.transform = `perspective(1000px) translate3d(0, ${yAnim}px, 0) rotateX(${rotX}deg) scale(${scale})`;
+                            el.style.transformOrigin = 'center bottom';
+
+                            let bright = 0.8 + (0.2 * Math.min(1, easeP * 2));
+                            el.style.filter = `brightness(${bright})`;
+                            el.style.opacity = Math.min(1, easeP * 2);
+                        }
+                    });
+                });
+            }, { passive: true });
+            window.dispatchEvent(new Event('scroll'));
+        })();
+    </script>
+</body>
+
+</html>

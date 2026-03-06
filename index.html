@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MADRIGRANO — Soluções Tecnológicas</title>
+  <meta name="description"
+    content="MADRIGRANO — Engenharia de software e consultoria em tecnologia para médios empreendedores. Automação, dashboards, inteligência artificial e processos.">
+  <meta property="og:title" content="MADRIGRANO — Soluções Tecnológicas">
+  <meta property="og:description" content="MADRIGRANO — Engenharia de software e consultoria em tecnologia para médios empreendedores. Automação, dashboards, inteligência artificial e processos.">
+  <meta name="theme-color" content="#0a0a0f">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&family=Fredoka:wght@400;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+  <main>
+
+  <!-- Theme Toggle -->
+  <button id="themeToggle" class="theme-toggle" aria-label="Alternar Tema Kindergarten">
+    <div class="toggle-icon-corp" title="Modo Corporativo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </div>
+    <div class="toggle-icon-kinder" title="Modo Kindergarten">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+      </svg>
+    </div>
+  </button>
+
+  <!-- ═══════════════════════════════════════════
+       NAVBAR
+       ═══════════════════════════════════════════ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">
+        <span class="logo-bracket">&lt;</span>M<span class="logo-bracket">/&gt;</span>
+        <span class="logo-text">MADRIGRANO</span>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="#about" class="nav-link">Sobre</a>
+        <a href="#projects" class="nav-link">Projetos</a>
+        <a href="#showcase" class="nav-link">Showcase</a>
+        <a href="#experience" class="nav-link">Experiência</a>
+        <a href="#contact" class="nav-link">Contato</a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════
+       HERO
+       ═══════════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <canvas id="heroCanvas"></canvas>
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div class="hero-badge anim-reveal">
+        <span class="badge-dot"></span>
+        Soluções sob medida para o seu negócio
+      </div>
+      <h1 class="hero-title anim-reveal" data-delay="1">
+        <span class="hero-line">Tecnologia que <em class="hero-accent">viabiliza</em>.</span>
+        <span class="hero-line">Soluções que <em class="hero-accent">transformam</em>.</span>
+      </h1>
+      <p class="hero-subtitle anim-reveal" data-delay="2">
+        Desenhamos caminhos através das tecnologias emergentes para destravar o crescimento do seu negócio e transformar
+        lacunas de gestão em eficiência operacional.
+      </p>
+      <div class="hero-cta anim-reveal" data-delay="3">
+        <a href="#projects" class="btn-primary-glow magnetic-btn">
+          <span>Conheça nossas soluções</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="7" y1="17" x2="17" y2="7" />
+            <polyline points="7 7 17 7 17 17" />
+          </svg>
+        </a>
+        <a href="#contact" class="btn-outline-glow magnetic-btn">
+          <span>Fale com a gente</span>
+        </a>
+      </div>
+      <div class="hero-scroll-indicator anim-reveal" data-delay="4">
+        <div class="scroll-mouse">
+          <div class="scroll-wheel"></div>
+        </div>
+        <span>Scroll</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       ABOUT
+       ═══════════════════════════════════════════ -->
+  <section class="section about" id="about">
+    <div class="section-inner">
+      <div class="section-label anim-reveal">
+        <span class="label-number">01</span>
+        <span class="label-line"></span>
+        <span>Manifesto</span>
+      </div>
+
+      <!-- MVV Carousel Apple-Style -->
+      <div class="mvv-carousel anim-reveal">
+        <div class="mvv-track">
+          <!-- Card Missão -->
+          <div class="mvv-card tilt-card" style="--card-g1:#6366f1;--card-g2:#8b5cf6">
+            <div class="mvv-accent"></div>
+            <span class="mvv-tag">Missão</span>
+            <h3 class="mvv-title">Viabilizar</h3>
+            <p class="mvv-desc">Viabilizar soluções tecnológicas às empresas, desenhando caminhos através das
+              tecnologias emergentes.</p>
+          </div>
+
+          <!-- Card Visão -->
+          <div class="mvv-card tilt-card" style="--card-g1:#10b981;--card-g2:#059669">
+            <div class="mvv-accent"></div>
+            <span class="mvv-tag">Visão</span>
+            <h3 class="mvv-title">Alcançar</h3>
+            <p class="mvv-desc">Ser o braço tecnológico estratégico para médios empreendedores no Brasil, transformando
+              lacunas de gestão em eficiência operacional.</p>
+          </div>
+
+          <!-- Card Valores -->
+          <div class="mvv-card tilt-card" style="--card-g1:#f59e0b;--card-g2:#d97706">
+            <div class="mvv-accent"></div>
+            <span class="mvv-tag">Valores</span>
+            <h3 class="mvv-title">Resolver</h3>
+            <p class="mvv-desc">Nada é impossível — algumas coisas demandam mais trabalho duro e criatividade. Mas o
+              gargalo do cliente é nossa prioridade absoluta.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Technologies Grid -->
+      <div class="about-grid">
+        <div class="about-skills anim-reveal">
+          <h3 class="skills-title">Nossas Ferramentas & Capacidades</h3>
+          <div class="skills-grid">
+            <div class="skill-chip" data-skill="ai">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path
+                  d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+              </svg>
+              Integração com IA e LLMs
+            </div>
+            <div class="skill-chip" data-skill="automacao">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+              </svg>
+              Automação Inteligente
+            </div>
+            <div class="skill-chip" data-skill="react">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="2" />
+                <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
+                <path d="M2 12a15.3 15.3 0 0110-4 15.3 15.3 0 0110 4 15.3 15.3 0 01-10 4 15.3 15.3 0 01-10-4z" />
+              </svg>
+              React & Next.js
+            </div>
+            <div class="skill-chip" data-skill="sharepoint">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" />
+                <line x1="8" y1="21" x2="16" y2="21" />
+                <line x1="12" y1="17" x2="12" y2="21" />
+              </svg>
+              SharePoint & Microsoft 365
+            </div>
+            <div class="skill-chip" data-skill="powerbi">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="20" x2="18" y2="10" />
+                <line x1="12" y1="20" x2="12" y2="4" />
+                <line x1="6" y1="20" x2="6" y2="14" />
+              </svg>
+              Dashboards e Power BI
+            </div>
+            <div class="skill-chip" data-skill="html">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="16 18 22 12 16 6" />
+                <polyline points="8 6 2 12 8 18" />
+              </svg>
+              UX/UI Engineering
+            </div>
+            <div class="skill-chip" data-skill="python">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 9H5a2 2 0 00-2 2v4a2 2 0 002 2h3" />
+                <path d="M12 15h7a2 2 0 002-2V9a2 2 0 00-2-2h-3" />
+                <path d="M8 9V5a2 2 0 012-2h4a2 2 0 012 2v5a2 2 0 01-2 2h-4a2 2 0 01-2-2z" />
+              </svg>
+              Engenharia de Dados (Python)
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       PROJECTS
+       ═══════════════════════════════════════════ -->
+  <section class="section projects" id="projects">
+    <div class="section-inner">
+      <div class="section-label anim-reveal">
+        <span class="label-number">02</span>
+        <span class="label-line"></span>
+        <span>Soluções</span>
+      </div>
+      <h2 class="projects-heading anim-reveal">Capacidades & Case Studies</h2>
+      <p class="projects-sub anim-reveal">
+        Cada projeto é desenhado sob medida. Apresentamos abaixo algumas das nossas arquiteturas funcionais
+        demonstrativas.<br><br>
+        <span style="font-size:0.85rem; color: var(--accent-1);">Pressione os cards para visualizar as demonstrações
+          interativas (sem dados reais).</span>
+      </p>
+
+      <!-- Projects Carousel Mobile-First -->
+      <div class="projects-carousel anim-reveal">
+        <div class="projects-grid">
+
+          <!-- Project 1: Central de Logística -->
+          <article class="project-card anim-reveal tilt-card demo-trigger" data-demo="logistica" data-accent="#6366f1">
+            <div class="card-visual">
+              <img class="kinder-img" src="assets/images/kinder/3d_edutech_tablet_1772105132143.png" alt="Tablet educacional 3D"
+                alt="Tablet Educacional 3D">
+              <div class="card-gradient" style="--g1:#6366f1;--g2:#8b5cf6"></div>
+              <div class="card-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                  <polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Omniscient Logistics Core</h3>
+              <p class="card-desc">Mapa cognitivo em tempo real rastreando entidades complexas. Monitoramento neural
+                ativo
+                e streaming de dados com detecção de anomalias logísticas no milissegundo.</p>
+              <div class="card-tech">
+                <span>React</span>
+                <span>Framer Motion</span>
+                <span>WebGL Sim</span>
+              </div>
+              <a class="card-link mt-4 project-link accent-1">
+                Launch Subroutine →
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 2: Gestão de Emissões ESG -->
+          <article class="project-card anim-reveal tilt-card demo-trigger featured" data-demo="emissoes"
+            data-accent="#10b981">
+            <div class="card-visual">
+              <img class="kinder-img" src="assets/images/kinder/3d_robot_toy_1772105151778.png" alt="Robô Educacional 3D">
+              <div class="card-gradient" style="--g1:#10b981;--g2:#059669"></div>
+              <div class="card-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M18 20V10" />
+                  <path d="M12 20V4" />
+                  <path d="M6 20v-6" />
+                </svg>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">ESG Neural Engine</h3>
+              <p class="card-desc">Matriz de sustentabilidade preditiva. Gráficos gerados ao vivo que calculam a pegada
+                de
+                carbono global, integrando parâmetros de compliance em milissegundos.</p>
+              <div class="card-tech">
+                <span>Recharts</span>
+                <span>Data Stream</span>
+                <span>Predictive AI</span>
+              </div>
+              <a class="card-link mt-4 project-link accent-2">
+                Engage Analytics →
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 3: Painel de Voos -->
+          <article class="project-card anim-reveal tilt-card demo-trigger" data-demo="voos" data-accent="#f59e0b">
+            <div class="card-visual">
+              <img class="kinder-img" src="assets/images/kinder/3d_vr_headset_1772105170781.png" alt="Headset VR educacional 3D">
+              <div class="card-gradient" style="--g1:#f59e0b;--g2:#d97706"></div>
+              <div class="card-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path
+                    d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z" />
+                </svg>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Quantum Fleet Sync</h3>
+              <p class="card-desc">Streaming contínuo de matriz de rotas operacionais. Tabela de alta performance
+                renderizando assinaturas de entidades e status de sincronicidade (ping 12ms).</p>
+              <div class="card-tech">
+                <span>Live Query</span>
+                <span>Optimized DOM</span>
+              </div>
+              <a class="card-link mt-4 project-link accent-3">
+                Access Data Grid →
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 4: Escala Inteligente -->
+          <article class="project-card anim-reveal tilt-card demo-trigger" data-demo="escala" data-accent="#ec4899">
+            <div class="card-visual">
+              <img class="kinder-img" src="assets/images/kinder/3d_blocks_1772105213515.png" alt="Blocos Interativos 3D">
+              <div class="card-gradient" style="--g1:#ec4899;--g2:#db2777"></div>
+              <div class="card-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="3" y="4" width="18" height="18" rx="2" />
+                  <line x1="16" y1="2" x2="16" y2="6" />
+                  <line x1="8" y1="2" x2="8" y2="6" />
+                  <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Algorithmic Workforce</h3>
+              <p class="card-desc">Motor algorítmico de alocação dinâmica forçando nós de trabalho à máxima eficiência.
+                Transições state-machine animadas e balanceamento de escala crítico.</p>
+              <div class="card-tech">
+                <span>State Machine</span>
+                <span>Layout Animations</span>
+              </div>
+              <a class="card-link mt-4 project-link accent-1">
+                Deploy Engine →
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 5: FAQ & IA Assistentes -->
+          <article class="project-card anim-reveal tilt-card demo-trigger" data-demo="faq" data-accent="#14b8a6">
+            <div class="card-visual">
+              <img class="kinder-img" src="assets/images/kinder/3d_brain_1772105233792.png" alt="Cérebro Lúdico 3D">
+              <div class="card-gradient" style="--g1:#14b8a6;--g2:#0d9488"></div>
+              <div class="card-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" />
+                  <line x1="12" y1="17" x2="12.01" y2="17" />
+                </svg>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Autonomous RAG Oracle</h3>
+              <p class="card-desc">Instanciação de um modelo LLM em ambiente air-gapped simulado. Visualização
+                vetorizada
+                do pensamento da IA: ingestão, busca semântica em BD Vetorial e inferência.</p>
+              <div class="card-tech">
+                <span>LLM Auth</span>
+                <span>Vector Search</span>
+                <span>UI States</span>
+              </div>
+              <a class="card-link mt-4 project-link accent-2">
+                Commence Uplink →
+              </a>
+            </div>
+          </article>
+
+          <!-- Project 6: Dashboards BI -->
+          <article class="project-card anim-reveal tilt-card demo-trigger" data-demo="bi" data-accent="#3b82f6">
+            <div class="card-visual">
+              <img class="kinder-img" src="assets/images/kinder/3d_abacus_1772105189343.png" alt="Ábaco Digital 3D">
+              <div class="card-gradient" style="--g1:#3b82f6;--g2:#2563eb"></div>
+              <div class="card-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M21.21 15.89A10 10 0 118 2.83" />
+                  <path d="M22 12A10 10 0 0012 2v10z" />
+                </svg>
+              </div>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title">Predictive C-Level Matrix</h3>
+              <p class="card-desc">Painel executivo com telemetria corporativa hyper-densa. Integração de Radares de
+                performance, simulações Embedded BI e injeção de visualização reativa multidimensional.</p>
+              <div class="card-tech">
+                <span>Embedded BI</span>
+                <span>Polar Grid</span>
+              </div>
+              <a class="card-link mt-4 project-link accent-3">
+                Synthesize Matrix →
+              </a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       SHOWCASE — PÁGINAS PARA CLIENTES
+       ═══════════════════════════════════════════ -->
+  <section class="section showcase" id="showcase">
+    <div class="section-inner">
+      <div class="section-label anim-reveal">
+        <span class="label-number">03</span>
+        <span class="label-line"></span>
+        <span>Showcase</span>
+      </div>
+      <h2 class="projects-heading anim-reveal">Páginas Web para Clientes</h2>
+      <p class="projects-sub anim-reveal">
+        Criamos landing pages sob medida que captam clientes e comunicam a essência do seu negócio.<br>
+        Cada página é otimizada para mobile com animações scroll de última geração.<br><br>
+        <span style="font-size:0.85rem; color: var(--accent-1);">Toque para abrir o exemplo em tela cheia.</span>
+      </p>
+
+      <div class="showcase-grid anim-reveal">
+
+        <!-- Showcase 1: Panificadora -->
+        <a href="pages/panificadora.html" target="_blank" rel="noopener" class="showcase-card anim-reveal"
+          style="--sc-g1:#C8973E;--sc-g2:#8B5E34">
+          <div class="showcase-preview">
+            <img src="assets/images/demos/bakery-hero.png" alt="Panificadora Dona Fátima" loading="lazy">
+            <div class="showcase-overlay">
+              <span class="showcase-open">Abrir Página ↗</span>
+            </div>
+          </div>
+          <div class="showcase-info">
+            <span class="showcase-category">🥖 Panificadora</span>
+            <h3>Dona Fátima</h3>
+            <p>Pão artesanal · Branding rústico premium · Scroll parallax</p>
+          </div>
+        </a>
+
+        <!-- Showcase 2: PetShop -->
+        <a href="pages/petshop.html" target="_blank" rel="noopener" class="showcase-card anim-reveal"
+          style="--sc-g1:#FF6B9D;--sc-g2:#C084FC">
+          <div class="showcase-preview">
+            <img src="assets/images/demos/petshop-hero.png" alt="PetShop Patinhas Felizes" loading="lazy">
+            <div class="showcase-overlay">
+              <span class="showcase-open">Abrir Página ↗</span>
+            </div>
+          </div>
+          <div class="showcase-info">
+            <span class="showcase-category">🐾 Pet Shop</span>
+            <h3>Patinhas Felizes</h3>
+            <p>Estilo fofo · Imagens reais · Micro-animações touch</p>
+          </div>
+        </a>
+
+        <!-- Showcase 3: Escola Infantil -->
+        <a href="pages/escola.html" target="_blank" rel="noopener" class="showcase-card anim-reveal"
+          style="--sc-g1:#38BDF8;--sc-g2:#22C55E">
+          <div class="showcase-preview">
+            <img src="assets/images/demos/escola-hero.png" alt="Escola Infantil Mundo Encantado" loading="lazy">
+            <div class="showcase-overlay">
+              <span class="showcase-open">Abrir Página ↗</span>
+            </div>
+          </div>
+          <div class="showcase-info">
+            <span class="showcase-category">🎨 Escola Infantil</span>
+            <h3>Mundo Encantado</h3>
+            <p>Lúdico & colorido · Blobs animados · Wave transitions</p>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       EXPERIENCE
+       ═══════════════════════════════════════════ -->
+  <section class="section experience" id="experience">
+    <div class="section-inner">
+      <div class="section-label anim-reveal">
+        <span class="label-number">04</span>
+        <span class="label-line"></span>
+        <span>Método</span>
+      </div>
+      <h2 class="experience-heading anim-reveal">Como trabalhamos</h2>
+
+      <div class="timeline">
+        <div class="timeline-item anim-reveal">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <span class="timeline-date">Etapa 01</span>
+            <h3 class="timeline-title">Diagnóstico</h3>
+            <p class="timeline-desc">É a fundação. Entendemos o gargalo, mapeamos processos, infraestrutura tecnológica
+              existente e o mapa de oportunidades, documentando os requisitos para garantir que entregamos a ferramenta
+              certa para o problema real.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item anim-reveal">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <span class="timeline-date">Etapa 02</span>
+            <h3 class="timeline-title">Arquitetura & Desenvolvimento</h3>
+            <p class="timeline-desc">Desenhamos a solução sob medida. Em sprints ágeis, priorizamos as entregas de valor
+              mais alto primeiro. Nossos clientes têm visibilidade direta de cada progresso, prototipagem, evitando
+              surpresas de implementação.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item anim-reveal">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <span class="timeline-date">Etapa 03</span>
+            <h3 class="timeline-title">Implantação & Evolução</h3>
+            <p class="timeline-desc">A entrega de código só está concluída quando faz parte da rotina — implantamos a
+              solução, integramos nas plataformas de uso contínuo, monitoramos o período de estabilização e auxiliamos
+              no onboarding se for necessário. O gargalo se transforma na nova eficiência.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       CONTACT
+       ═══════════════════════════════════════════ -->
+  <section class="section contact" id="contact">
+    <div class="section-inner">
+      <div class="contact-box anim-reveal">
+        <div class="contact-glow"></div>
+        <div class="section-label">
+          <span class="label-number">05</span>
+          <span class="label-line"></span>
+          <span>Contato</span>
+        </div>
+        <h2 class="contact-heading">
+          Pronto para destravar o<br>próximo nível?
+        </h2>
+        <p class="contact-desc">
+          Conte-nos sobre o seu desafio. Nossa equipe avalia e propõe um caminho tático em até 24 horas.
+        </p>
+        <div class="contact-links">
+          <a href="#" class="contact-link magnetic-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+            </svg>
+            <span>WhatsApp</span>
+          </a>
+          <a href="mailto:contato@madrigrano.com" class="contact-link magnetic-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+              <polyline points="22,6 12,13 2,6" />
+            </svg>
+            <span>Email</span>
+          </a>
+          <a href="#" target="_blank" rel="noopener" class="contact-link magnetic-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" />
+              <rect x="2" y="9" width="4" height="12" />
+              <circle cx="4" cy="4" r="2" />
+            </svg>
+            <span>LinkedIn</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <span class="footer-logo">
+          <span class="logo-bracket">&lt;</span>M<span class="logo-bracket">/&gt;</span>
+          <span class="logo-text">MADRIGRANO</span>
+        </span>
+        <span class="footer-copy">© 2026 MADRIGRANO — Engenharia e Soluções Tecnológicas</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cursor glow -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- Demo Modal Iframe -->
+  <div class="modal-overlay" id="demoModal">
+    <div class="modal-content">
+      <button class="modal-close" id="demoClose" aria-label="Fechar">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+      <div class="modal-header">
+        <h3 class="modal-title" id="demoTitle">Demonstração Interativa</h3>
+        <p class="modal-subtitle">Nenhuma informação proprietária ou dados reais (MOCK DATA)</p>
+      </div>
+      <div class="modal-body">
+        <iframe id="demoIframe" src="" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/script.js"></script>
+</body>
+
+</html>

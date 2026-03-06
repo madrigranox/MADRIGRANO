@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mock Demo - Painel Voos</title>
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            background: #000;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .panel {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: #222;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #f59e0b;
+        }
+
+        .time {
+            font-family: monospace;
+            font-size: 1.4rem;
+            color: #10b981;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background: #1a1a1a;
+            padding: 12px 16px;
+            color: #888;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid #222;
+        }
+
+        tr:hover {
+            background: #151515;
+        }
+
+        .status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .bg-green {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .bg-yellow {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+
+        .bg-red {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="panel">
+        <div class="header">
+            <div class="title">PAINEL DE OPERAÇÕES - PARTIDAS</div>
+            <div class="time">14:32:05</div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Voo</th>
+                    <th>Destino (Unidade)</th>
+                    <th>Previsto</th>
+                    <th>Portão</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>OP-8042</strong></td>
+                    <td>FPSO Alpha Norte</td>
+                    <td>14:45</td>
+                    <td>02</td>
+                    <td><span class="status bg-green">EMBARQUE</span></td>
+                </tr>
+                <tr>
+                    <td><strong>OP-8043</strong></td>
+                    <td>Plataforma Sul II</td>
+                    <td>15:10</td>
+                    <td>04</td>
+                    <td><span class="status bg-yellow">NO PÁTIO</span></td>
+                </tr>
+                <tr>
+                    <td><strong>OP-8045</strong></td>
+                    <td>FPSO Bravo</td>
+                    <td>15:30</td>
+                    <td>01</td>
+                    <td><span class="status bg-red">ATRASADO</span></td>
+                </tr>
+                <tr>
+                    <td><strong>OP-8048</strong></td>
+                    <td>Base Logística Central</td>
+                    <td>16:00</td>
+                    <td>03</td>
+                    <td><span class="status bg-yellow">NO PÁTIO</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

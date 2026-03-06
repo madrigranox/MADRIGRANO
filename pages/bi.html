@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mock Demo - Dashboards BI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #eaedf2;
+            color: #1e293b;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 64px;
+            background: #0f172a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            gap: 24px;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+        }
+
+        .active-icon {
+            background: #3b82f6;
+        }
+
+        .content {
+            flex: 1;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 12px;
+        }
+
+        .filter {
+            background: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid #cbd5e1;
+            color: #64748b;
+        }
+
+        .embed-area {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #cbd5e1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .embed-header {
+            background: #f8fafc;
+            padding: 16px 24px;
+            border-bottom: 1px solid #e2e8f0;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .report-mock {
+            flex: 1;
+            padding: 32px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 2fr;
+            gap: 24px;
+        }
+
+        .box {
+            background: #f1f5f9;
+            border-radius: 8px;
+            border: 1px dashed #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .box-large {
+            grid-column: 1 / -1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="icon active-icon"></div>
+        <div class="icon"></div>
+        <div class="icon"></div>
+    </div>
+    <div class="content">
+        <div class="topbar">
+            <h2>Hub Analytics (PBI Embedded Mock)</h2>
+            <div class="filters">
+                <div class="filter">Unidade: FPSO C</div>
+                <div class="filter">Ano: 2026</div>
+                <div class="filter">Exportar PDF</div>
+            </div>
+        </div>
+        <div class="embed-area">
+            <div class="embed-header">
+                <span>Visão Executiva (C-Level)</span>
+                <span style="color: #64748b; font-size: 0.9rem;">Atualizado: há 5 min</span>
+            </div>
+            <div class="report-mock">
+                <div class="box">[ KPI de Performance P1 ]</div>
+                <div class="box">[ KPI de Custos Anual ]</div>
+                <div class="box box-large">[ Gráfico de Dispersão: Orçamento vs Realizado e Tendências Móveis ]</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mock Demo - Escala</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #334155;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .btn {
+            background: #3b82f6;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .calendar {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .cal-header {
+            display: grid;
+            grid-template-columns: 2fr repeat(7, 1fr);
+            background: #f1f5f9;
+            border-bottom: 1px solid #e2e8f0;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .cal-header div {
+            padding: 12px;
+            border-right: 1px solid #e2e8f0;
+        }
+
+        .cal-row {
+            display: grid;
+            grid-template-columns: 2fr repeat(7, 1fr);
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .cal-cell {
+            padding: 16px 12px;
+            border-right: 1px solid #e2e8f0;
+            text-align: center;
+            position: relative;
+        }
+
+        .person {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-align: left;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .shift {
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .s-on {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .s-off {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .s-travel {
+            background: #fef9c3;
+            color: #ca8a04;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h2>Sistema de Escala (MOCK)</h2>
+        <div style="font-weight: 600; color: #64748b;">Novembro 2026</div>
+        <a href="#" class="btn">Nova Alocação</a>
+    </div>
+    <div class="calendar">
+        <div class="cal-header">
+            <div style="text-align:left;">Colaborador</div>
+            <div>1 Seg</div>
+            <div>2 Ter</div>
+            <div>3 Qua</div>
+            <div>4 Qui</div>
+            <div>5 Sex</div>
+            <div>6 Sáb</div>
+            <div>7 Dom</div>
+        </div>
+        <div class="cal-row">
+            <div class="cal-cell person">
+                <div class="avatar">AB</div> Ana Beatriz
+            </div>
+            <div class="cal-cell"><span class="shift s-on">EMBARCADA</span></div>
+            <div class="cal-cell"><span class="shift s-on">EMBARCADA</span></div>
+            <div class="cal-cell"><span class="shift s-on">EMBARCADA</span></div>
+            <div class="cal-cell"><span class="shift s-travel">DESEMBARC</span></div>
+            <div class="cal-cell"><span class="shift s-off">FOLGA</span></div>
+            <div class="cal-cell"><span class="shift s-off">FOLGA</span></div>
+            <div class="cal-cell"><span class="shift s-off">FOLGA</span></div>
+        </div>
+        <div class="cal-row">
+            <div class="cal-cell person">
+                <div class="avatar" style="background:#f472b6;">CS</div> Carlos Silva
+            </div>
+            <div class="cal-cell"><span class="shift s-off">FOLGA</span></div>
+            <div class="cal-cell"><span class="shift s-off">FOLGA</span></div>
+            <div class="cal-cell"><span class="shift s-travel">EMBARQUE</span></div>
+            <div class="cal-cell"><span class="shift s-on">EMBARCADO</span></div>
+            <div class="cal-cell"><span class="shift s-on">EMBARCADO</span></div>
+            <div class="cal-cell"><span class="shift s-on">EMBARCADO</span></div>
+            <div class="cal-cell"><span class="shift s-on">EMBARCADO</span></div>
+        </div>
+    </div>
+</body>
+
+</html>

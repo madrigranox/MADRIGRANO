@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Demo - Central Logística</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --card: #16161e;
+            --text: #f0f0f5;
+            --muted: #a0a0b8;
+            --accent: #6366f1;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+        }
+
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            background: var(--card);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 24px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: var(--accent);
+        }
+
+        .nav-item {
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            color: var(--muted);
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--accent);
+        }
+
+        .main {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-val {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo">Central Logística*</div>
+        <div class="nav-item active">Dashboard</div>
+        <div class="nav-item">Embarques</div>
+        <div class="nav-item">Unidades</div>
+        <div class="nav-item">Relatórios</div>
+    </div>
+    <div class="main">
+        <div class="header">
+            <h2>Visão Geral Operacional</h2>
+            <div style="background:var(--accent); padding:8px 16px; border-radius:6px; font-size:14px;">+ Novo
+                Agendamento</div>
+        </div>
+        <div class="grid">
+            <div class="stat-card">
+                <div style="color:var(--muted); font-size:14px;">Embarques Hoje</div>
+                <div class="stat-val">142</div>
+            </div>
+            <div class="stat-card">
+                <div style="color:var(--muted); font-size:14px;">Capacidade (Helicópteros)</div>
+                <div class="stat-val">87%</div>
+            </div>
+            <div class="stat-card">
+                <div style="color:var(--muted); font-size:14px;">Alertas Pendentes</div>
+                <div class="stat-val" style="color:#ef4444;">3</div>
+            </div>
+        </div>
+        <div
+            style="margin-top: 40px; background: var(--card); height: 300px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items:center; justify-content:center; color: var(--muted);">
+            [ Gráfico Mockado de Fluxo Semanal ]
+        </div>
+    </div>
+</body>
+
+</html>

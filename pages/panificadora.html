@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Panificadora Dona Fátima — Pão Artesanal desde 1987</title>
+    <meta name="description"
+        content="Pão artesanal feito com fermentação natural, farinha selecionada e o carinho de três gerações. Panificadora Dona Fátima.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cream: #FFF8EE;
+            --cream-deep: #F5E6CF;
+            --warm-white: #FFFCF5;
+            --coffee: #3C2415;
+            --coffee-light: #6B4226;
+            --gold: #C8973E;
+            --gold-light: #E8C06A;
+            --gold-glow: #D4A853;
+            --flour: #F5EDE0;
+            --crust: #8B5E34;
+            --terra: #A0714B;
+            --text: #2C1810;
+            --text-muted: #8A7565;
+            --shadow: rgba(60, 36, 21, 0.08);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .serif {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+
+        /* ══════ NAVBAR ══════ */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 0 20px;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 248, 238, 0.75);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(200, 151, 62, 0.06);
+            transition: all 0.4s ease;
+        }
+
+        .nav.scrolled {
+            background: rgba(255, 248, 238, 0.95);
+            box-shadow: 0 1px 30px var(--shadow);
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 800;
+            font-size: 1.05rem;
+            color: var(--coffee);
+            letter-spacing: -0.02em;
+        }
+
+        .nav-logo span {
+            color: var(--gold);
+        }
+
+        .nav-cta {
+            background: var(--coffee);
+            color: var(--cream);
+            border: none;
+            padding: 10px 22px;
+            border-radius: 100px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .nav-cta:active {
+            transform: scale(0.95);
+        }
+
+        /* ══════ FIXED BREAD CUTOUT (BACKGROUND GUIDE) ══════ */
+        .bread-fixed {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translate(50%, -50%) rotate(-5deg);
+            width: 140vw;
+            z-index: 5;
+            pointer-events: none;
+            will-change: transform, filter;
+            filter: drop-shadow(0 24px 48px rgba(60, 36, 21, 0.25));
+            opacity: 0.95;
+            transform-origin: center center;
+        }
+
+        .bread-fixed img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* ══════ HERO ══════ */
+        .hero-wrap {
+            height: 160vh;
+            position: relative;
+        }
+
+        .hero {
+            position: sticky;
+            top: 0;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px 24px 40px;
+            overflow: visible;
+            background: transparent;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 55%;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 252, 245, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(200, 151, 62, 0.15);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--gold);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            opacity: 0;
+            transform: translateY(16px);
+            animation: fadeUp 0.8s 0.3s forwards;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.8rem, 11vw, 5rem);
+            font-weight: 900;
+            line-height: 1.0;
+            color: var(--coffee);
+            margin-bottom: 16px;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.5s forwards;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .hero-sub {
+            font-size: clamp(0.92rem, 3vw, 1.05rem);
+            color: var(--text-muted);
+            line-height: 1.65;
+            max-width: 300px;
+            margin-bottom: 24px;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.7s forwards;
+        }
+
+        .hero-cta-row {
+            display: flex;
+            gap: 12px;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.9s forwards;
+        }
+
+        .btn-primary {
+            background: var(--coffee);
+            color: var(--cream);
+            border: none;
+            padding: 14px 28px;
+            border-radius: 100px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(60, 36, 21, 0.15);
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.96);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--coffee);
+            border: 1.5px solid rgba(60, 36, 21, 0.2);
+            padding: 14px 24px;
+            border-radius: 100px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* ══════ SECTIONS ══════ */
+        .section {
+            padding: 80px 24px;
+            position: relative;
+        }
+
+        .section-inner {
+            max-width: 480px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 14px;
+        }
+
+        .section-tag::before {
+            content: '';
+            width: 28px;
+            height: 1.5px;
+            background: var(--gold);
+        }
+
+        .section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.9rem, 8vw, 3rem);
+            font-weight: 800;
+            color: var(--coffee);
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .section p.lead {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* ══════ REVEAL ══════ */
+        .rv {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .rv.vis {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .rv-scale {
+            opacity: 0;
+            transform: scale(0.88);
+            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .rv-scale.vis {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ══════ ABOUT ══════ */
+        .about {
+            background: transparent;
+        }
+
+        .about-img {
+            width: 100%;
+            border-radius: 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 8px 40px var(--shadow);
+            overflow: hidden;
+            position: relative;
+            z-index: 10;
+        }
+
+        .about-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        .stat {
+            background: white;
+            border-radius: 20px;
+            padding: 22px 16px;
+            text-align: center;
+            border: 1px solid rgba(200, 151, 62, 0.06);
+            box-shadow: 0 2px 16px rgba(60, 36, 21, 0.03);
+            position: relative;
+            z-index: 10;
+        }
+
+        .stat-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--gold);
+            display: block;
+        }
+
+        .stat-lbl {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+            letter-spacing: 0.03em;
+        }
+
+        /* ══════ BIG PARALLAX QUOTE ══════ */
+        .quote-section {
+            padding: 100px 24px;
+            text-align: center;
+            background: transparent;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .quote-text {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 8vw, 3.5rem);
+            font-weight: 800;
+            font-style: italic;
+            color: var(--coffee);
+            line-height: 1.2;
+            max-width: 480px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .quote-text .word {
+            display: inline-block;
+            opacity: 0.08;
+            transition: opacity 0.4s ease, transform 0.4s ease, color 0.4s ease;
+            transform: translateY(6px);
+        }
+
+        .quote-text .word.active {
+            opacity: 1;
+            transform: translateY(0);
+            color: var(--coffee);
+        }
+
+        /* ══════ MENU — STICKY SECTION ══════ */
+        .menu-wrap {
+            min-height: 120vh;
+            position: relative;
+        }
+
+        .menu-section {
+            position: sticky;
+            top: 0;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px 24px;
+            background: transparent;
+        }
+
+        .menu-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 28px;
+        }
+
+        .menu-item {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(200, 151, 62, 0.06);
+            box-shadow: 0 2px 16px rgba(60, 36, 21, 0.03);
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        .menu-item:active {
+            transform: scale(0.98);
+        }
+
+        .menu-emoji {
+            font-size: 2rem;
+            width: 56px;
+            height: 56px;
+            background: var(--flour);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .menu-info h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+
+        .menu-info p {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .menu-price {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--gold);
+            font-size: 1.05rem;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        /* ══════ GALLERY — HORIZONTAL SNAP ══════ */
+        .gallery {
+            background: transparent;
+            padding: 80px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .gallery .section-inner {
+            padding: 0 24px;
+        }
+
+        .gallery-track {
+            display: flex;
+            gap: 14px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding: 0 24px 20px;
+            margin-top: 28px;
+            scrollbar-width: none;
+        }
+
+        .gallery-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .gallery-card {
+            flex: 0 0 calc(100vw - 56px);
+            max-width: 340px;
+            border-radius: 24px;
+            overflow: hidden;
+            scroll-snap-align: center;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 4px 24px var(--shadow);
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-card-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(60, 36, 21, 0.7), transparent);
+            color: white;
+        }
+
+        .gallery-card-label h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .gallery-card-label p {
+            font-size: 0.75rem;
+            opacity: 0.85;
+            margin-top: 2px;
+        }
+
+        /* ══════ TESTIMONIALS ══════ */
+        .testimonials {
+            background: transparent;
+            color: var(--coffee);
+            padding: 80px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .testimonials .section-inner {
+            padding: 0 24px;
+        }
+
+        .testimonials .section-tag {
+            color: var(--gold);
+        }
+
+        .testimonials .section-tag::before {
+            background: var(--gold);
+        }
+
+        .testimonials h2 {
+            color: var(--coffee);
+        }
+
+        .test-track {
+            display: flex;
+            gap: 14px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding: 0 24px 16px;
+            margin-top: 28px;
+            scrollbar-width: none;
+        }
+
+        .test-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .test-card {
+            flex: 0 0 calc(100vw - 56px);
+            max-width: 360px;
+            background: var(--coffee);
+            border: 1px solid rgba(200, 151, 62, 0.12);
+            border-radius: 24px;
+            padding: 28px 24px;
+            scroll-snap-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .test-stars {
+            color: var(--gold-light);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-bottom: 14px;
+        }
+
+        .test-quote {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: rgba(255, 252, 245, 0.8);
+            margin-bottom: 18px;
+        }
+
+        .test-author {
+            font-size: 0.78rem;
+            color: rgba(255, 252, 245, 0.45);
+        }
+
+        .test-author strong {
+            color: var(--gold-light);
+            display: block;
+            font-weight: 600;
+        }
+
+        /* ══════ CTA ══════ */
+        .cta-section {
+            padding: 100px 24px;
+            text-align: center;
+            background: transparent;
+            position: relative;
+            z-index: 10;
+        }
+
+        .cta-section h2 {
+            margin-bottom: 14px;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            max-width: 360px;
+            margin: 0 auto 28px;
+            line-height: 1.6;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--coffee);
+            color: var(--cream);
+            border: none;
+            padding: 16px 36px;
+            border-radius: 100px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 4px 24px rgba(60, 36, 21, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:active {
+            transform: scale(0.96);
+        }
+
+        .info-row {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 40px;
+            text-align: left;
+            max-width: 360px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .info-item svg {
+            flex-shrink: 0;
+            color: var(--gold);
+        }
+
+        /* ══════ FOOTER ══════ */
+        .pfooter {
+            background: var(--coffee);
+            color: rgba(255, 252, 245, 0.35);
+            text-align: center;
+            padding: 32px 24px;
+            font-size: 0.72rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .pfooter span {
+            color: var(--gold-light);
+        }
+
+        /* ══════ RESPONSIVE ══════ */
+        @media (min-width: 640px) {
+            .section-inner {
+                max-width: 560px;
+            }
+
+            .stats-row {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .gallery-card {
+                flex: 0 0 300px;
+            }
+
+            .test-card {
+                flex: 0 0 340px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="nav" id="nav">
+        <div class="nav-logo">Dona <span>Fátima</span></div>
+        <button class="nav-cta">Encomendar</button>
+    </nav>
+
+    <!-- FIXED BREAD CUTOUT -->
+    <div class="bread-fixed" id="breadFixed">
+        <img src="../assets/images/demos/upscalemedia-transformed.png" alt="Pão artesanal" loading="eager">
+    </div>
+
+    <!-- HERO -->
+    <div class="hero-wrap">
+        <section class="hero">
+            <div class="hero-content" id="heroContent">
+                <div class="hero-badge">Desde 1987 · Fermentação Natural</div>
+                <h1>Pão feito<br>com <em>alma</em>.</h1>
+                <p class="hero-sub">Três gerações de receitas de família. Fermentação natural de 18 horas, farinha
+                    selecionada e o carinho que só a Dona Fátima sabe dar.</p>
+                <div class="hero-cta-row">
+                    <button class="btn-primary">Ver Cardápio</button>
+                    <button class="btn-secondary">Encomendar</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ABOUT -->
+    <section class="section about">
+        <div class="section-inner">
+            <div class="section-tag rv">Nossa História</div>
+            <h2 class="rv">Três gerações de<br>amor e farinha.</h2>
+            <div class="about-img rv-scale">
+                <img src="../assets/images/demos/bakery-bread.png" alt="Pão de fermentação natural" loading="lazy">
+            </div>
+            <p class="lead rv">Em 1987, Dona Fátima abriu uma pequena padaria no bairro. O segredo? Nenhum atalho.
+                Fermento vivo que descansa por 18 horas, farinha moída de produtor local e mãos que conhecem cada
+                textura da massa. Hoje, na terceira geração, o compromisso é o mesmo: pão honesto, do jeito certo.</p>
+
+            <div class="stats-row">
+                <div class="stat rv"><span class="stat-num" data-target="38">0</span><span class="stat-lbl">Anos de
+                        tradição</span></div>
+                <div class="stat rv"><span class="stat-num" data-target="18">0</span><span class="stat-lbl">Horas
+                        fermentação</span></div>
+                <div class="stat rv"><span class="stat-num" data-target="12000">0</span><span class="stat-lbl">Pães por
+                        semana</span></div>
+                <div class="stat rv"><span class="stat-num" data-target="4.9">0</span><span class="stat-lbl">★ no
+                        Google</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUOTE -->
+    <section class="quote-section" id="quoteSection">
+        <p class="quote-text" id="quoteText">"O aroma que abraça você ao entrar é a nossa assinatura."</p>
+    </section>
+
+    <!-- CARDÁPIO -->
+    <div class="menu-wrap">
+        <section class="menu-section">
+            <div class="section-inner" style="padding:0;">
+                <div class="section-tag rv">Cardápio</div>
+                <h2 class="rv">Nossos <em class="serif" style="color:var(--gold)">favoritos</em></h2>
+                <div class="menu-grid">
+                    <div class="menu-item rv">
+                        <div class="menu-emoji">🍞</div>
+                        <div class="menu-info">
+                            <h4>Pão de Fermentação Natural</h4>
+                            <p>Casca crocante, miolo macio. 18h de descanso.</p>
+                        </div><span class="menu-price">R$14</span>
+                    </div>
+                    <div class="menu-item rv">
+                        <div class="menu-emoji">🥐</div>
+                        <div class="menu-info">
+                            <h4>Croissant Clássico</h4>
+                            <p>Manteiga francesa, 27 camadas folhadas.</p>
+                        </div><span class="menu-price">R$9</span>
+                    </div>
+                    <div class="menu-item rv">
+                        <div class="menu-emoji">🧁</div>
+                        <div class="menu-info">
+                            <h4>Bolo de Fubá com Goiabada</h4>
+                            <p>Receita da avó. Fubá orgânico e goiabada cascão.</p>
+                        </div><span class="menu-price">R$8</span>
+                    </div>
+                    <div class="menu-item rv">
+                        <div class="menu-emoji">🥧</div>
+                        <div class="menu-info">
+                            <h4>Torta Salgada do Dia</h4>
+                            <p>Frango, palmito ou espinafre. Consulte.</p>
+                        </div><span class="menu-price">R$35</span>
+                    </div>
+                    <div class="menu-item rv">
+                        <div class="menu-emoji">☕</div>
+                        <div class="menu-info">
+                            <h4>Café Coado Especial</h4>
+                            <p>Grãos da Chapada Diamantina, coado na hora.</p>
+                        </div><span class="menu-price">R$6</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- GALLERY -->
+    <section class="section gallery">
+        <div class="section-inner">
+            <div class="section-tag rv">Galeria</div>
+            <h2 class="rv">Feito com as <em class="serif" style="color:var(--gold)">mãos</em></h2>
+        </div>
+        <div class="gallery-track">
+            <div class="gallery-card"><img src="../assets/images/demos/bakery-hero.png" alt="Vitrine da padaria" loading="lazy">
+                <div class="gallery-card-label">
+                    <h4>Nossa Vitrine</h4>
+                    <p>Pães fresquinhos toda manhã</p>
+                </div>
+            </div>
+            <div class="gallery-card"><img src="../assets/images/demos/bakery-bread.png" alt="Pão artesanal" loading="lazy">
+                <div class="gallery-card-label">
+                    <h4>Fermentação Natural</h4>
+                    <p>18 horas de descanso para o sabor perfeito</p>
+                </div>
+            </div>
+            <div class="gallery-card"><img src="../assets/images/demos/bakery-hero.png" alt="Croissants" loading="lazy">
+                <div class="gallery-card-label">
+                    <h4>Croissants em Camadas</h4>
+                    <p>27 camadas de pura manteiga francesa</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials">
+        <div class="section-inner">
+            <div class="section-tag rv">Depoimentos</div>
+            <h2 class="rv">O que dizem<br>sobre nós</h2>
+        </div>
+        <div class="test-track">
+            <div class="test-card">
+                <div class="test-stars">★★★★★</div>
+                <p class="test-quote">"O pão de fermentação natural da Dona Fátima mudou minha relação com café da
+                    manhã. Não consigo mais comprar pão em outro lugar."</p>
+                <div class="test-author"><strong>Marina Oliveira</strong>Cliente desde 2019</div>
+            </div>
+            <div class="test-card">
+                <div class="test-stars">★★★★★</div>
+                <p class="test-quote">"Encomendei o bolo de fubá para o aniversário da minha mãe. Ela chorou porque
+                    disse que tinha o gosto do bolo da avó dela."</p>
+                <div class="test-author"><strong>Carlos Henrique</strong>Cliente desde 2021</div>
+            </div>
+            <div class="test-card">
+                <div class="test-stars">★★★★★</div>
+                <p class="test-quote">"Melhor croissant que já comi no Brasil. Parece que estou em Paris. E aquele café
+                    coado é poesia pura."</p>
+                <div class="test-author"><strong>Luísa Barros</strong>Cliente desde 2020</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section cta-section">
+        <div class="section-inner">
+            <div class="section-tag rv">Contato</div>
+            <h2 class="rv">Venha nos visitar.</h2>
+            <p class="rv">Nosso pão sai do forno quentinho todos os dias às 6h. Encomendas com 48h de antecedência.</p>
+            <button class="cta-btn rv">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                        d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                </svg>
+                Chamar no WhatsApp
+            </button>
+            <div class="info-row rv">
+                <div class="info-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
+                        <circle cx="12" cy="10" r="3" />
+                    </svg>R. das Flores, 142 — Centro, Belo Horizonte</div>
+                <div class="info-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>Seg–Sáb: 6h às 20h · Dom: 6h às 14h</div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="pfooter">
+        <span>Panificadora Dona Fátima</span> · Pão artesanal desde 1987<br>
+        <small style="margin-top:6px;display:block;opacity:0.5;">* Página demonstrativa — MADRIGRANO Portfolio</small>
+    </footer>
+
+    <script>
+        (function () {
+            'use strict';
+
+            // Navbar scroll
+            const nav = document.getElementById('nav');
+            window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 60), { passive: true });
+
+            // Hero parallax
+            const heroContent = document.getElementById('heroContent');
+            !function loop() {
+                const s = scrollY, h = innerHeight;
+                if (s < h * 2.5) {
+                    const p = Math.min(s / h, 1);
+                    heroContent.style.transform = `translateY(${s * 0.25}px)`;
+                    heroContent.style.opacity = Math.max(0, 1 - p * 1.4);
+                }
+                requestAnimationFrame(loop);
+            }();
+
+            // Reveal observer
+            const obs = new IntersectionObserver(entries => {
+                entries.forEach((e, i) => {
+                    if (e.isIntersecting) {
+                        setTimeout(() => e.target.classList.add('vis'), i * 60);
+                        obs.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+            document.querySelectorAll('.rv, .rv-scale').forEach(el => obs.observe(el));
+
+            // Counter animation
+            const counters = document.querySelectorAll('.stat-num[data-target]');
+            let cDone = false;
+            const cObs = new IntersectionObserver(entries => {
+                entries.forEach(e => {
+                    if (e.isIntersecting && !cDone) {
+                        cDone = true;
+                        counters.forEach(el => {
+                            const t = parseFloat(el.dataset.target), dec = t % 1 !== 0, dur = 1400, st = Date.now();
+                            !function tick() {
+                                const p = Math.min((Date.now() - st) / dur, 1), eased = 1 - Math.pow(1 - p, 3), v = eased * t;
+                                el.textContent = t >= 1000 ? Math.floor(v).toLocaleString('pt-BR') : dec ? v.toFixed(1) : Math.floor(v);
+                                if (p < 1) requestAnimationFrame(tick);
+                            }();
+                        });
+                    }
+                });
+            }, { threshold: 0.3 });
+            if (counters.length) cObs.observe(counters[0].closest('.stats-row'));
+
+            // Quote word reveal
+            const qt = document.getElementById('quoteText');
+            const words = qt.textContent.trim().split(/\s+/);
+            qt.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(' ');
+            const spans = qt.querySelectorAll('.word');
+            const qs = document.getElementById('quoteSection');
+            function updateQ() {
+                const r = qs.getBoundingClientRect(), wH = innerHeight;
+                const p = Math.max(0, Math.min(1, (wH - r.top) / (wH + r.height)));
+                const n = Math.floor(p * spans.length * 1.8);
+                spans.forEach((s, i) => s.classList.toggle('active', i < n));
+            }
+            window.addEventListener('scroll', updateQ, { passive: true });
+            updateQ();
+
+            // ══════ FIXED BREAD — APPLE-STYLE MORPH ANIMATION ══════
+            const bread = document.getElementById('breadFixed');
+            let bRaf;
+            window.addEventListener('scroll', () => {
+                if (bRaf) cancelAnimationFrame(bRaf);
+                bRaf = requestAnimationFrame(() => {
+                    const sY = window.scrollY;
+                    const wH = window.innerHeight;
+
+                    // Animation distance: from Hero to the About section
+                    const animEnd = wH * 1.05;
+
+                    let p = Math.min(1, Math.max(0, sY / animEnd));
+                    const ease = -(Math.cos(Math.PI * p) - 1) / 2; // Smooth EaseInOut
+
+                    const scale = 1 - (ease * 0.75); // Scales down to 25%
+                    const xOffsetVW = -(ease * 95);  // Moves further left (95vw) to clear the text
+                    const yOffsetVH = ease * 25;     // Moves down 25vh to align middle
+                    const rot = -5 + (ease * 35);    // More rotation for a nice resting angle
+
+                    // Dynamic drop-shadow
+                    const shadowY = 24 - (ease * 12);
+                    const shadowBlur = 48 - (ease * 28);
+                    const shadowOp = 0.25 + (ease * 0.25);
+
+                    // Stop morphing and stick to page flow after animEnd
+                    let scrollOffset = 0;
+                    if (sY > animEnd) {
+                        scrollOffset = -(sY - animEnd);
+                    }
+
+                    bread.style.transform = `translateY(${scrollOffset}px) translate(calc(50% + ${xOffsetVW}vw), calc(-50% + ${yOffsetVH}vh)) rotate(${rot}deg) scale(${scale})`;
+                    bread.style.filter = `drop-shadow(0 ${shadowY}px ${shadowBlur}px rgba(60, 36, 21, ${shadowOp}))`;
+                });
+            }, { passive: true });
+            window.dispatchEvent(new Event('scroll'));
+
+            // ══════ APPLE-STYLE SCROLL DEPTH on cards ══════
+            const depthElements = document.querySelectorAll('.about-img, .gal-card, .test-card, .menu-item');
+            let aRaf;
+            window.addEventListener('scroll', () => {
+                if (aRaf) cancelAnimationFrame(aRaf);
+                aRaf = requestAnimationFrame(() => {
+                    const wH = window.innerHeight;
+                    depthElements.forEach(el => {
+                        const rect = el.getBoundingClientRect();
+                        const p = 1 - (rect.top / wH);
+                        if (p > -0.2 && p < 1.2) {
+                            let easeP = Math.max(0, Math.min(1, p));
+                            let scale = 0.94 + (0.06 * Math.min(1, easeP * 2));
+                            let rotX = 8 * (1 - Math.min(1, easeP * 2));
+                            let yAnim = 30 * (1 - Math.min(1, easeP * 2));
+                            el.style.transform = `perspective(1000px) translate3d(0,${yAnim}px,0) rotateX(${rotX}deg) scale(${scale})`;
+                            el.style.transformOrigin = 'center bottom';
+                            el.style.opacity = Math.min(1, easeP * 2.5);
+                        }
+                    });
+                });
+            }, { passive: true });
+            window.dispatchEvent(new Event('scroll'));
+        })();
+    </script>
+</body>
+
+</html>
