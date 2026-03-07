@@ -335,6 +335,15 @@
             display: block;
         }
 
+        /* center history heading/text on narrow screens */
+        @media (max-width: 640px) {
+            .section.about .section-tag,
+            .section.about h2,
+            .section.about .lead {
+                text-align: center;
+            }
+        }
+
         .stats-row {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
