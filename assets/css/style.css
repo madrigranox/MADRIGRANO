@@ -551,6 +551,11 @@ button {
   .hero-scroll-indicator .scroll-mouse {
     display: none;
   }
+
+  /* hide specific project cards on narrow viewports */
+  .hide-mobile {
+    display: none !important;
+  }
 }
 
 /* ═══════════════════════════════════════════
