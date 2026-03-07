@@ -841,6 +841,7 @@ button {
 .project-card {
   display: flex;
   flex-direction: column;
+  height: 100%;
   flex: 0 0 calc(90vw - 32px);
   max-width: 400px;
   scroll-snap-align: center;
