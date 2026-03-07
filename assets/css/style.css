@@ -839,6 +839,8 @@ button {
 
 /* Project Card */
 .project-card {
+  display: flex;
+  flex-direction: column;
   flex: 0 0 calc(90vw - 32px);
   max-width: 400px;
   scroll-snap-align: center;
@@ -978,6 +980,9 @@ button {
 /* Card body */
 .card-body {
   padding: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .card-tag {
