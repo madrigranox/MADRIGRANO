@@ -546,6 +546,13 @@ button {
   }
 }
 
+/* hide mouse icon on mobile */
+@media (max-width: 640px) {
+  .hero-scroll-indicator .scroll-mouse {
+    display: none;
+  }
+}
+
 /* ═══════════════════════════════════════════
    [5] SECTIONS (shared)
    ═══════════════════════════════════════════ */
