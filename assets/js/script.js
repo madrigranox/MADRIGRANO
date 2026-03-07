@@ -19,7 +19,6 @@
     initHeroCanvas();
     initSmoothScroll();
     initDemoModal();
-    initThemeToggle();
   }
 
   /* ═══════════════════════════════════════════
@@ -87,79 +86,6 @@
     });
   }
 
-  /* ═══════════════════════════════════════════
-     [4.5] THEME TOGGLE (Kindergarten)
-     ═══════════════════════════════════════════ */
-  function initThemeToggle() {
-    const btn = document.getElementById('themeToggle');
-    if (!btn) return;
-
-    // Check saved preference
-    const isKinder = localStorage.getItem('theme-kindergarten') === 'true';
-    if (isKinder) {
-      document.body.classList.add('theme-kindergarten');
-      applyCampTranslations(true);
-    }
-
-    btn.addEventListener('click', () => {
-      const isEnabled = document.body.classList.toggle('theme-kindergarten');
-      localStorage.setItem('theme-kindergarten', isEnabled);
-      applyCampTranslations(isEnabled);
-    });
-  }
-
-  // --- Camp Translations Dictionary ---
-  const magicTranslations = {
-    "MADRIGRANO": "TIO MADRI",
-    "Tecnologia que viabiliza. Soluções que transformam.": "Baú de Brinquedos! Invenções divertidas.",
-    "Desenhamos caminhos através das tecnologias emergentes para destravar o crescimento do seu negócio e transformar lacunas de gestão em eficiência operacional.": "Vem brincar com a gente na nossa fábrica mágica de ideias! Aqui construímos castelos e robôs super legais.",
-    "Conheça nossas soluções": "Quero ver os brinquedos!",
-    "Capacidades & Case Studies": "Caixa de Ferramentas Mágicas",
-    "Cada projeto é desenhado sob medida. Apresentamos abaixo algumas das nossas arquiteturas funcionais demonstrativas.": "Aperte os botões coloridos para ligar os nossos construtores digitais divertidos.",
-    "Como trabalhamos": "Nossa Hora de Brincar",
-    "Missão": "Nossa Magia",
-    "Visão": "Nossa Escolinha",
-    "Valores": "Nossas Regras",
-    "Omniscient Logistics Core": "Frotinha Fantástica",
-    "ESG Neural Engine": "Planeta Verde Feliz",
-    "Quantum Fleet Sync": "Aviõezinhos Sincronizados",
-    "Algorithmic Workforce": "Os Roboizinhos Construindo",
-    "Autonomous RAG Oracle": "O Baú que Sabe Tudo",
-    "Predictive C-Level Matrix": "A Lousa Mágica do Chefe"
-  };
-
-  function applyCampTranslations(isKinder) {
-    const walker = document.createTreeWalker(
-      document.body,
-      NodeFilter.SHOW_TEXT,
-      null,
-      false
-    );
-
-    let node;
-    while ((node = walker.nextNode())) {
-      const origText = node.nodeValue.trim();
-      if (!origText) continue;
-
-      if (isKinder) {
-        // Save original text if not saved
-        if (!node.parentElement.hasAttribute('data-orig-text')) {
-          node.parentElement.setAttribute('data-orig-text', origText);
-        }
-        // Replace if in dictionary
-        const translation = magicTranslations[origText] || Object.entries(magicTranslations).find(([k, v]) => origText.includes(k));
-        if (translation) {
-          node.nodeValue = typeof translation === 'string' ? translation : origText.replace(translation[0], translation[1]);
-        }
-      } else {
-        // Restore original
-        if (node.parentElement.hasAttribute('data-orig-text')) {
-          node.nodeValue = node.parentElement.getAttribute('data-orig-text');
-          // Keep attribute for future toggles
-        }
-      }
-    }
-  }
 
   /* ═══════════════════════════════════════════
      [5] CURSOR GLOW (desktop only)
@@ -392,10 +318,6 @@
       // In a real scenario, these would point to specialized anonymous deployments.
       let url = demoRoutes[demoId] || 'about:blank';
 
-      // Pass the magical theme query if it's active
-      if (document.body.classList.contains('theme-kindergarten') && url !== 'about:blank') {
-        url += '?theme=kinder';
-      }
 
       iframe.src = url;
 

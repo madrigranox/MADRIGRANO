@@ -47,49 +47,6 @@
   --nav-height: 64px;
 }
 
-/* ─── [0.1] KINDERGARTEN THEME OVERRIDES ─── */
-body.theme-kindergarten {
-  --bg-primary: #fffbeb;
-  /* yellow-50 */
-  --bg-secondary: #fef3c7;
-  /* yellow-100 */
-  --bg-card: #ffffff;
-  --bg-card-hover: #f0fdf4;
-  /* green-50 */
-  --bg-elevated: #ffffff;
-
-  --text-primary: #1e293b;
-  /* slate-800 */
-  --text-secondary: #475569;
-  /* slate-600 */
-  --text-muted: #64748b;
-  /* slate-500 */
-  --text-accent: #f59e0b;
-  /* amber-500 */
-
-  --accent-1: #10b981;
-  /* emerald-500 */
-  --accent-2: #3b82f6;
-  /* blue-500 */
-  --accent-3: #ec4899;
-  /* pink-500 */
-  --accent-glow: rgba(16, 185, 129, 0.2);
-
-  --border-subtle: rgba(0, 0, 0, 0.05);
-  --border-card: rgba(0, 0, 0, 0.1);
-  --border-hover: rgba(0, 0, 0, 0.15);
-
-  --glass-bg: rgba(255, 255, 255, 0.8);
-  --glass-border: rgba(255, 255, 255, 0.5);
-
-  --font-sans: 'Fredoka', 'Nunito', sans-serif;
-  --font-mono: 'Fredoka', 'Nunito', sans-serif;
-
-  --radius-sm: 16px;
-  --radius-md: 24px;
-  --radius-lg: 32px;
-  --radius-xl: 40px;
-}
 
 /* ─── [1] RESET & BASE ─── */
 *,
@@ -1766,117 +1723,14 @@ button {
   }
 }
 
-/* ═══════════════════════════════════════════
-   [16] KINDERGARTEN THEME (EDUTECH)
-   ═══════════════════════════════════════════ */
-.theme-toggle {
-  position: fixed;
-  bottom: 32px;
-  right: 32px;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: var(--bg-card);
-  border: 1px solid var(--border-card);
-  color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  cursor: pointer;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-  transition: transform 0.4s var(--ease-spring), background-color 0.4s;
-  overflow: hidden;
-}
 
-.theme-toggle:hover {
-  transform: scale(1.1) rotate(15deg);
-  background: var(--bg-card-hover);
-}
-
-body.theme-kindergarten .theme-toggle {
-  box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.4);
-  background: #fef3c7;
-  border-color: #f59e0b;
-  color: #f59e0b;
-}
-
-.toggle-icon-corp,
-.toggle-icon-kinder {
-  position: absolute;
-  transition: transform 0.6s var(--ease-spring), opacity 0.6s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-body.theme-kindergarten .toggle-icon-corp {
-  transform: rotate(180deg) scale(0);
-  opacity: 0;
-}
-
-.toggle-icon-kinder {
-  transform: rotate(-180deg) scale(0);
-  opacity: 0;
-}
-
-body.theme-kindergarten .toggle-icon-kinder {
-  transform: rotate(0) scale(1.2);
-  opacity: 1;
-}
-
-.kinder-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transform: scale(0.8) translateY(20px);
-  transition: opacity 0.6s var(--ease-spring), transform 0.6s var(--ease-spring);
-  mix-blend-mode: multiply;
-  /* Drops white bg */
-  z-index: 10;
-  pointer-events: none;
-  /* Let hovers pass to card */
-}
-
-body.theme-kindergarten .kinder-img {
-  opacity: 1;
-  transform: scale(1.1) translateY(0);
-}
-
-body.theme-kindergarten .card-gradient,
-body.theme-kindergarten .card-icon {
-  opacity: 0;
-  /* Hide cyber elements */
-}
-
-body.theme-kindergarten .project-card:hover .kinder-img {
-  transform: scale(1.2) translateY(-10px) rotate(5deg);
-  animation: kinder-float-bounce 2s ease-in-out infinite alternate;
-}
-
-@keyframes kinder-float-bounce {
-  0% {
-    transform: scale(1.2) translateY(-10px) rotate(5deg);
-  }
-
-  100% {
-    transform: scale(1.25) translateY(-20px) rotate(-2deg);
-  }
-}
-
-/* ─── [17] RADICAL CAMP KINDERGARTEN (V2 MAGICAL) ─── */
 /* Fun background pattern (polka dots) */
-body.theme-kindergarten {
   background-image: radial-gradient(var(--bg-card-hover) 3px, transparent 3px), radial-gradient(var(--bg-card-hover) 3px, transparent 3px);
   background-size: 60px 60px;
   background-position: 0 0, 30px 30px;
 }
 
 /* Huge playful typography */
-body.theme-kindergarten .hero h1 {
   font-size: clamp(3rem, 8vw, 6rem);
   text-shadow: 4px 4px 0px var(--accent-1), 8px 8px 0px rgba(0, 0, 0, 0.1);
   line-height: 1.1;
@@ -1884,13 +1738,11 @@ body.theme-kindergarten .hero h1 {
   letter-spacing: -1px;
 }
 
-body.theme-kindergarten .hero p {
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--text-primary);
 }
 
-body.theme-kindergarten h2 {
   font-size: clamp(2.5rem, 6vw, 4rem);
   color: var(--accent-2);
   text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
@@ -1899,7 +1751,6 @@ body.theme-kindergarten h2 {
 }
 
 /* Arcade/Toy Buttons */
-body.theme-kindergarten .btn-primary {
   font-size: 1.4rem;
   padding: 20px 40px;
   border-radius: 50px;
@@ -1914,19 +1765,15 @@ body.theme-kindergarten .btn-primary {
   letter-spacing: 2px;
 }
 
-body.theme-kindergarten .btn-primary:active {
   transform: translateY(8px);
   box-shadow: 0 0px 0px #9d174d, 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
-body.theme-kindergarten .btn-primary:hover::after {
   display: none;
   /* remove cyber glow */
 }
 
 /* Deconstruct Cards into Magical Blobs */
-body.theme-kindergarten .project-card,
-body.theme-kindergarten .mvv-card {
   border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
   border: 6px solid white;
   box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.1);
@@ -1936,63 +1783,50 @@ body.theme-kindergarten .mvv-card {
 }
 
 /* Add varied rotations to cards for a messy toybox feel */
-body.theme-kindergarten .project-card:nth-child(odd) {
   transform: rotate(3deg);
   border-color: var(--accent-1);
 }
 
-body.theme-kindergarten .project-card:nth-child(even) {
   transform: rotate(-3deg);
   border-color: var(--accent-2);
 }
 
-body.theme-kindergarten .mvv-card:nth-child(1) {
   transform: rotate(-4deg);
   border-color: var(--accent-3);
 }
 
-body.theme-kindergarten .mvv-card:nth-child(2) {
   transform: rotate(2deg);
   border-color: var(--accent-1);
 }
 
-body.theme-kindergarten .mvv-card:nth-child(3) {
   transform: rotate(-2deg);
   border-color: var(--text-accent);
 }
 
 /* Remove structural straight lines */
-body.theme-kindergarten .timeline::before,
-body.theme-kindergarten .label-line,
-body.theme-kindergarten .border-subtle,
-body.theme-kindergarten .card-visual {
   border: none;
   background: transparent;
 }
 
 /* Magic Modal Toybox */
-body.theme-kindergarten .modal-content {
   border-radius: 40px;
   border: 8px solid var(--accent-2);
   background: #fff;
   box-shadow: 15px 15px 0px rgba(0, 0, 0, 0.1), 0 0 50px rgba(59, 130, 246, 0.4);
 }
 
-body.theme-kindergarten .modal-header {
   background: var(--accent-2);
   border-bottom: none;
   border-radius: 32px 32px 0 0;
   padding: 24px 32px;
 }
 
-body.theme-kindergarten .modal-title {
   color: white;
   font-size: 1.8rem;
   font-weight: 800;
   text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
 }
 
-body.theme-kindergarten .modal-close {
   background: var(--accent-3);
   border: 3px solid #be185d;
   color: white;
@@ -2003,7 +1837,6 @@ body.theme-kindergarten .modal-close {
   opacity: 1;
 }
 
-body.theme-kindergarten .modal-close:hover {
   transform: translateY(2px);
   box-shadow: 0 2px 0 #9d174d;
 }

@@ -30,4 +30,3 @@ Disponível em: `https://<seu-usuario>.github.io/<nome-do-repo>/` (substitua con
 
 ## Observações
 - Caminhos relativos sensíveis a maiúsculas no GitHub Pages.
-- O tema "Kindergarten" transforma textos e cores para uma versão infantil.
