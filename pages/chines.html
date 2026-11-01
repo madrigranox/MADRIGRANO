@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学中文 · Learn Chinese — lessons &amp; voice recognition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --panel: #1e293b;
+            --panel-2: #273449;
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --accent: #ef4444;
+            --good: #22c55e;
+            --bad: #f87171;
+            --warn: #facc15;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        header {
+            padding: 24px 20px 8px;
+            text-align: center;
+        }
+
+        header h1 { margin: 0; font-size: 1.6rem; }
+        header p { margin: 6px 0 0; color: var(--muted); font-size: .95rem; }
+
+        main {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 16px 20px 48px;
+        }
+
+        .warning {
+            display: none;
+            background: #451a03;
+            border: 1px solid #b45309;
+            color: #fde68a;
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            font-size: .9rem;
+        }
+
+        .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+
+        .tab {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #334155;
+            background: var(--panel);
+            color: var(--muted);
+            border-radius: 10px;
+            cursor: pointer;
+            font: inherit;
+            font-weight: 600;
+        }
+
+        .tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+        .card {
+            background: var(--panel);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+
+        .controls-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        select {
+            background: var(--panel-2);
+            color: var(--text);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font: inherit;
+        }
+
+        .counter { color: var(--muted); font-size: .9rem; }
+
+        .hanzi {
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 3rem;
+            text-align: center;
+            letter-spacing: .08em;
+            margin: 8px 0;
+        }
+
+        .pinyin { text-align: center; font-size: 1.25rem; color: var(--warn); }
+        .meaning { text-align: center; color: var(--muted); margin-top: 6px; }
+
+        .toggle-row { text-align: center; margin-top: 10px; font-size: .85rem; color: var(--muted); }
+        .toggle-row label { cursor: pointer; margin: 0 8px; }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        button.btn {
+            border: none;
+            border-radius: 999px;
+            padding: 12px 20px;
+            font: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            background: var(--panel-2);
+            color: var(--text);
+        }
+
+        button.btn:disabled { opacity: .4; cursor: not-allowed; }
+        button.btn.primary { background: var(--accent); color: white; }
+        button.btn.recording { animation: pulse 1s infinite; background: #b91c1c; color: white; }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, .6); }
+            50% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
+        }
+
+        .result { margin-top: 20px; text-align: center; min-height: 90px; }
+        .heard { font-family: 'Noto Sans SC', sans-serif; font-size: 1.8rem; margin: 6px 0; }
+        .heard .ok { color: var(--good); }
+        .heard .miss { color: var(--bad); text-decoration: underline wavy; }
+        .label { color: var(--muted); font-size: .85rem; }
+        .score { font-size: 1.3rem; font-weight: 700; margin-top: 6px; }
+        .alts { color: var(--muted); font-size: .85rem; margin-top: 6px; font-family: 'Noto Sans SC', sans-serif; }
+
+        .free-output {
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 1.6rem;
+            min-height: 120px;
+            background: var(--panel-2);
+            border-radius: 12px;
+            padding: 16px;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
+        .free-output .interim { color: var(--muted); }
+
+        .stats { display: flex; gap: 12px; justify-content: center; color: var(--muted); font-size: .9rem; }
+
+        .hidden { display: none !important; }
+
+        footer { text-align: center; color: var(--muted); font-size: .8rem; padding-bottom: 24px; }
+
+        /* ---------- Learn mode ---------- */
+        .topstats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+        .topstats .pill { background: var(--panel); padding: 8px 14px; border-radius: 999px; }
+        .topstats label { font-weight: 400; color: var(--muted); font-size: .85rem; cursor: pointer; }
+
+        .unit { margin-bottom: 18px; }
+        .unit h3 { margin: 0 0 10px; font-size: 1rem; color: var(--muted); font-weight: 600; }
+        .lessons { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+
+        .lesson-btn {
+            text-align: left;
+            border: 2px solid #334155;
+            background: var(--panel);
+            color: var(--text);
+            border-radius: 14px;
+            padding: 12px 14px;
+            cursor: pointer;
+            font: inherit;
+        }
+        .lesson-btn .name { font-weight: 700; }
+        .lesson-btn .words { font-family: 'Noto Sans SC', sans-serif; color: var(--muted); font-size: .9rem; margin-top: 4px; }
+        .lesson-btn.done { border-color: var(--good); }
+        .lesson-btn.done .name::after { content: ' ✓'; color: var(--good); }
+        .lesson-btn.current { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(239, 68, 68, .25); }
+        .lesson-btn:disabled { opacity: .35; cursor: not-allowed; }
+        .lesson-btn:disabled .name::after { content: ' 🔒'; }
+
+        .review-btn { width: 100%; margin-bottom: 18px; }
+
+        .lesson-top { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .lesson-top button { background: none; border: none; color: var(--muted); font-size: 1.4rem; cursor: pointer; }
+        .bar { flex: 1; height: 14px; background: var(--panel-2); border-radius: 999px; overflow: hidden; }
+        .bar > div { height: 100%; width: 0; background: var(--good); transition: width .3s; }
+
+        .ex-prompt { font-size: 1.15rem; font-weight: 600; margin-bottom: 16px; }
+        .ex-big { font-family: 'Noto Sans SC', sans-serif; font-size: 3rem; text-align: center; margin: 10px 0; }
+        .ex-sub { text-align: center; color: var(--warn); font-size: 1.2rem; }
+        .ex-mean { text-align: center; color: var(--muted); margin-top: 4px; }
+        .sound-btn { display: block; margin: 8px auto; font-size: 1.6rem; padding: 14px 22px; }
+
+        .options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+        .option {
+            border: 2px solid #334155;
+            background: var(--panel-2);
+            color: var(--text);
+            border-radius: 12px;
+            padding: 14px;
+            font: inherit;
+            font-size: 1.05rem;
+            cursor: pointer;
+        }
+        .option.zh { font-family: 'Noto Sans SC', sans-serif; font-size: 1.6rem; }
+        .option.selected { border-color: #60a5fa; background: #1e3a5f; }
+
+        .answer-row, .tile-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            min-height: 58px;
+            padding: 8px;
+            border-radius: 12px;
+            margin-top: 14px;
+        }
+        .answer-row { border-bottom: 2px solid #334155; border-radius: 0; }
+        .tile {
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 1.4rem;
+            padding: 8px 14px;
+            border-radius: 10px;
+            border: 2px solid #334155;
+            background: var(--panel-2);
+            color: var(--text);
+            cursor: pointer;
+        }
+        .tile.used { visibility: hidden; }
+
+        .feedback {
+            margin-top: 18px;
+            border-radius: 14px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            background: var(--panel-2);
+        }
+        .feedback.good { background: #14532d; }
+        .feedback.bad { background: #7f1d1d; }
+        .feedback .msg { font-weight: 600; }
+        .feedback .msg .zh { font-family: 'Noto Sans SC', sans-serif; }
+        .feedback .msg small { display: block; font-weight: 400; opacity: .85; margin-top: 2px; }
+        .link-btn { background: none; border: none; color: var(--muted); text-decoration: underline; cursor: pointer; font: inherit; }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>🎙️ 学中文 · Learn Chinese</h1>
+        <p>Bite-sized lessons with listening, reading, sentence building and speaking — checked by Mandarin voice recognition.</p>
+    </header>
+
+    <main>
+        <div class="warning" id="support-warning">
+            Speech recognition isn't available in this browser. Use <strong>Google Chrome</strong> or
+            <strong>Microsoft Edge</strong> (desktop or Android), or <strong>Safari</strong> on iPhone/Mac, and allow microphone
+            access. The page must be opened via <code>https://</code> or <code>localhost</code>, not directly as a file.
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" data-mode="learn">Learn</button>
+            <button class="tab" data-mode="practice">Pronunciation</button>
+            <button class="tab" data-mode="free">Free speaking</button>
+        </div>
+
+        <!-- Learn mode: course path + lessons -->
+        <section id="mode-learn">
+            <div id="learn-path"></div>
+            <div id="learn-lesson" class="hidden">
+                <div class="lesson-top">
+                    <button id="lesson-quit" title="Quit lesson">✕</button>
+                    <div class="bar"><div id="lesson-bar"></div></div>
+                </div>
+                <div class="card">
+                    <div id="ex-area"></div>
+                    <div class="feedback" id="feedback">
+                        <div class="msg" id="feedback-msg"></div>
+                        <button class="btn primary" id="action">Check</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phrase practice mode -->
+        <section id="mode-practice" class="hidden">
+            <div class="card">
+                <div class="controls-row">
+                    <select id="category"></select>
+                    <span class="counter" id="counter"></span>
+                </div>
+
+                <div class="hanzi" id="hanzi"></div>
+                <div class="pinyin" id="pinyin"></div>
+                <div class="meaning" id="meaning"></div>
+
+                <div class="toggle-row">
+                    <label><input type="checkbox" id="show-pinyin" checked> Pinyin</label>
+                    <label><input type="checkbox" id="show-meaning" checked> Translation</label>
+                    <label>Voice speed
+                        <select id="rate">
+                            <option value="0.6">Slow</option>
+                            <option value="0.85" selected>Normal</option>
+                            <option value="1">Native</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="buttons">
+                    <button class="btn" id="prev">◀ Prev</button>
+                    <button class="btn" id="listen">🔊 Listen</button>
+                    <button class="btn primary" id="speak">🎤 Speak</button>
+                    <button class="btn" id="next">Next ▶</button>
+                </div>
+
+                <div class="result" id="result"></div>
+            </div>
+
+            <div class="stats">
+                <span>Attempts: <strong id="stat-attempts">0</strong></span>
+                <span>Perfect: <strong id="stat-perfect">0</strong></span>
+                <span>Average: <strong id="stat-avg">–</strong></span>
+            </div>
+        </section>
+
+        <!-- Free speaking mode -->
+        <section id="mode-free" class="hidden">
+            <div class="card">
+                <p class="label">Say anything in Mandarin. What the recognizer understood appears below.</p>
+                <div class="free-output" id="free-output"></div>
+                <div class="buttons">
+                    <button class="btn primary" id="free-toggle">🎤 Start</button>
+                    <button class="btn" id="free-play">🔊 Read back</button>
+                    <button class="btn" id="free-clear">Clear</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>Uses your browser's built-in speech recognition (zh-CN). Audio is processed by your browser's speech service.</footer>
+
+    <script>
+        const PHRASES = {
+            'Greetings': [
+                ['你好', 'nǐ hǎo', 'Hello / Olá'],
+                ['谢谢', 'xièxie', 'Thank you / Obrigado'],
+                ['不客气', 'bú kèqi', "You're welcome / De nada"],
+                ['对不起', 'duìbuqǐ', 'Sorry / Desculpe'],
+                ['没关系', 'méi guānxi', "It's okay / Tudo bem"],
+                ['再见', 'zàijiàn', 'Goodbye / Tchau'],
+                ['早上好', 'zǎoshang hǎo', 'Good morning / Bom dia'],
+                ['晚安', 'wǎn\'ān', 'Good night / Boa noite'],
+                ['你好吗', 'nǐ hǎo ma', 'How are you? / Como vai?'],
+                ['我很好', 'wǒ hěn hǎo', "I'm fine / Estou bem"],
+            ],
+            'Introductions': [
+                ['我叫卢卡斯', 'wǒ jiào Lúkǎsī', 'My name is Luccas / Meu nome é Luccas'],
+                ['你叫什么名字', 'nǐ jiào shénme míngzi', "What's your name? / Qual é o seu nome?"],
+                ['我是巴西人', 'wǒ shì Bāxī rén', "I'm Brazilian / Sou brasileiro"],
+                ['认识你很高兴', 'rènshi nǐ hěn gāoxìng', 'Nice to meet you / Prazer em conhecê-lo'],
+                ['我在学中文', 'wǒ zài xué Zhōngwén', "I'm learning Chinese / Estou aprendendo chinês"],
+                ['我会说一点中文', 'wǒ huì shuō yìdiǎn Zhōngwén', 'I speak a little Chinese / Falo um pouco de chinês'],
+                ['我是程序员', 'wǒ shì chéngxùyuán', "I'm a programmer / Sou programador"],
+            ],
+            'Numbers': [
+                ['一二三四五', 'yī èr sān sì wǔ', '1 2 3 4 5'],
+                ['六七八九十', 'liù qī bā jiǔ shí', '6 7 8 9 10'],
+                ['一百', 'yìbǎi', '100'],
+                ['多少钱', 'duōshao qián', 'How much? / Quanto custa?'],
+                ['今天几号', 'jīntiān jǐ hào', "What's the date today? / Que dia é hoje?"],
+                ['现在几点', 'xiànzài jǐ diǎn', 'What time is it? / Que horas são?'],
+            ],
+            'Daily life': [
+                ['我想喝水', 'wǒ xiǎng hē shuǐ', 'I want to drink water / Quero beber água'],
+                ['我饿了', 'wǒ è le', "I'm hungry / Estou com fome"],
+                ['洗手间在哪里', 'xǐshǒujiān zài nǎlǐ', 'Where is the bathroom? / Onde fica o banheiro?'],
+                ['我听不懂', 'wǒ tīng bu dǒng', "I don't understand / Não entendo"],
+                ['请再说一遍', 'qǐng zài shuō yí biàn', 'Please say it again / Repita, por favor'],
+                ['请说慢一点', 'qǐng shuō màn yìdiǎn', 'Please speak slower / Fale mais devagar'],
+                ['这个用中文怎么说', 'zhège yòng Zhōngwén zěnme shuō', 'How do you say this in Chinese? / Como se diz isso em chinês?'],
+                ['今天天气很好', 'jīntiān tiānqì hěn hǎo', 'The weather is nice today / O tempo está bom hoje'],
+            ],
+            'Tones (minimal pairs)': [
+                ['妈', 'mā', 'mother (1st tone)'],
+                ['麻', 'má', 'hemp (2nd tone)'],
+                ['马', 'mǎ', 'horse (3rd tone)'],
+                ['骂', 'mà', 'to scold (4th tone)'],
+                ['买', 'mǎi', 'to buy (3rd tone)'],
+                ['卖', 'mài', 'to sell (4th tone)'],
+                ['汤', 'tāng', 'soup (1st tone)'],
+                ['糖', 'táng', 'sugar (2nd tone)'],
+                ['四十四', 'sìshísì', 'forty-four'],
+                ['十四是十四', 'shísì shì shísì', 'fourteen is fourteen (tongue twister)'],
+            ],
+        };
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const $ = (id) => document.getElementById(id);
+
+        if (!SpeechRecognition) {
+            $('support-warning').style.display = 'block';
+            $('speak').disabled = true;
+            $('free-toggle').disabled = true;
+        }
+
+        // ---------- Text-to-speech ----------
+        let zhVoice = null;
+        function pickVoice() {
+            const voices = speechSynthesis.getVoices();
+            zhVoice = voices.find(v => v.lang === 'zh-CN') ||
+                voices.find(v => /^zh/i.test(v.lang) && !/HK|TW/i.test(v.lang)) ||
+                voices.find(v => /^zh/i.test(v.lang)) || null;
+        }
+        if ('speechSynthesis' in window) {
+            pickVoice();
+            speechSynthesis.onvoiceschanged = pickVoice;
+        } else {
+            $('listen').disabled = true;
+            $('free-play').disabled = true;
+        }
+
+        function say(text) {
+            if (!('speechSynthesis' in window) || !text) return;
+            speechSynthesis.cancel();
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = 'zh-CN';
+            try { if (zhVoice) u.voice = zhVoice; } catch (e) { /* fall back to default voice for zh-CN */ }
+            u.rate = parseFloat($('rate').value);
+            try { speechSynthesis.speak(u); } catch (e) { console.warn('Speech synthesis failed', e); }
+        }
+
+        // ---------- Scoring ----------
+        const normalize = (s) => s.replace(/[\s，。！？、,.!?;；：:“”"'‘’（）()]/g, '');
+        const DIGITS = { '0': '零', '1': '一', '2': '二', '3': '三', '4': '四', '5': '五', '6': '六', '7': '七', '8': '八', '9': '九' };
+
+        // Convert simple Arabic numbers the recognizer may output (e.g. "44", "100") into Chinese characters.
+        function numToHanzi(n) {
+            n = parseInt(n, 10);
+            if (isNaN(n) || n > 9999) return null;
+            if (n < 10) return DIGITS[n];
+            const units = [[1000, '千'], [100, '百'], [10, '十']];
+            let out = '', zero = false;
+            for (const [val, ch] of units) {
+                const d = Math.floor(n / val);
+                if (d) {
+                    if (zero) out += '零';
+                    out += (val === 10 && d === 1 && !out ? '' : DIGITS[d]) + ch;
+                    zero = false;
+                } else if (out) zero = true;
+                n %= val;
+            }
+            if (n) out += (zero ? '零' : '') + DIGITS[n];
+            return out;
+        }
+        const convertNumbers = (s) => s.replace(/\d+/g, (m) => numToHanzi(m) ?? m.split('').map(d => DIGITS[d]).join(''));
+
+        // Longest common subsequence: marks which target characters were heard correctly.
+        function compare(target, heard) {
+            const a = [...target], b = [...heard];
+            const dp = Array.from({ length: a.length + 1 }, () => new Array(b.length + 1).fill(0));
+            for (let i = a.length - 1; i >= 0; i--)
+                for (let j = b.length - 1; j >= 0; j--)
+                    dp[i][j] = a[i] === b[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
+            const matched = new Array(a.length).fill(false);
+            let i = 0, j = 0;
+            while (i < a.length && j < b.length) {
+                if (a[i] === b[j]) { matched[i] = true; i++; j++; }
+                else if (dp[i + 1][j] >= dp[i][j + 1]) i++;
+                else j++;
+            }
+            const common = dp[0][0];
+            const score = Math.round((2 * common / (a.length + b.length || 1)) * 100);
+            return { matched, score };
+        }
+
+        // ---------- Practice mode ----------
+        const categorySel = $('category');
+        Object.keys(PHRASES).forEach(c => categorySel.add(new Option(c, c)));
+        let category = categorySel.value, index = 0;
+        const stats = { attempts: 0, perfect: 0, total: 0 };
+
+        function render() {
+            const list = PHRASES[category];
+            const [hz, py, mean] = list[index];
+            $('hanzi').textContent = hz;
+            $('pinyin').textContent = py;
+            $('meaning').textContent = mean;
+            $('pinyin').classList.toggle('hidden', !$('show-pinyin').checked);
+            $('meaning').classList.toggle('hidden', !$('show-meaning').checked);
+            $('counter').textContent = `${index + 1} / ${list.length}`;
+            $('result').innerHTML = '';
+        }
+
+        categorySel.onchange = () => { category = categorySel.value; index = 0; render(); };
+        $('prev').onclick = () => { const n = PHRASES[category].length; index = (index - 1 + n) % n; render(); };
+        $('next').onclick = () => { index = (index + 1) % PHRASES[category].length; render(); };
+        $('listen').onclick = () => say(PHRASES[category][index][0]);
+        $('show-pinyin').onchange = render;
+        $('show-meaning').onchange = render;
+
+        function escapeHtml(s) {
+            return s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+        }
+
+        let practiceRec = null;
+        $('speak').onclick = () => {
+            if (practiceRec) { practiceRec.stop(); return; }
+            speechSynthesis && speechSynthesis.cancel();
+            const rec = new SpeechRecognition();
+            rec.lang = 'zh-CN';
+            rec.interimResults = true;
+            rec.maxAlternatives = 5;
+            rec.continuous = false;
+            practiceRec = rec;
+
+            const btn = $('speak');
+            btn.classList.add('recording');
+            btn.textContent = '⏹ Stop';
+            $('result').innerHTML = '<div class="label">Listening… speak now</div>';
+
+            let finalResult = null;
+            rec.onresult = (e) => {
+                const r = e.results[e.results.length - 1];
+                if (r.isFinal) finalResult = r;
+                else $('result').innerHTML = `<div class="label">Hearing…</div><div class="heard">${escapeHtml(r[0].transcript)}</div>`;
+            };
+            rec.onerror = (e) => {
+                const msg = {
+                    'no-speech': "Didn't hear anything. Try again a bit louder.",
+                    'not-allowed': 'Microphone access was blocked. Allow it in the browser address bar.',
+                    'audio-capture': 'No microphone found.',
+                    'network': 'Network error: the browser speech service needs an internet connection.',
+                }[e.error] || `Error: ${e.error}`;
+                $('result').innerHTML = `<div class="label" style="color:var(--bad)">${msg}</div>`;
+            };
+            rec.onend = () => {
+                practiceRec = null;
+                btn.classList.remove('recording');
+                btn.textContent = '🎤 Speak';
+                if (finalResult) grade(finalResult);
+            };
+            rec.start();
+        };
+
+        function grade(result) {
+            const target = normalize(PHRASES[category][index][0]);
+            // Pick the alternative that best matches the target.
+            let best = null;
+            const alts = [];
+            for (let k = 0; k < result.length; k++) {
+                const heard = normalize(convertNumbers(result[k].transcript));
+                alts.push(result[k].transcript);
+                const cmp = compare(target, heard);
+                if (!best || cmp.score > best.score) best = { ...cmp, heard, raw: result[k].transcript };
+            }
+
+            const targetHtml = [...target].map((ch, i) =>
+                `<span class="${best.matched[i] ? 'ok' : 'miss'}">${escapeHtml(ch)}</span>`).join('');
+            const color = best.score === 100 ? 'var(--good)' : best.score >= 60 ? 'var(--warn)' : 'var(--bad)';
+            const verdict = best.score === 100 ? '完美！Perfect!' : best.score >= 60 ? '很好！Almost there' : '再试一次 — Try again';
+
+            stats.attempts++;
+            stats.total += best.score;
+            if (best.score === 100) stats.perfect++;
+            $('stat-attempts').textContent = stats.attempts;
+            $('stat-perfect').textContent = stats.perfect;
+            $('stat-avg').textContent = Math.round(stats.total / stats.attempts) + '%';
+
+            $('result').innerHTML = `
+                <div class="label">Target (red = not recognized)</div>
+                <div class="heard">${targetHtml}</div>
+                <div class="label">Recognizer heard</div>
+                <div class="heard">${escapeHtml(best.raw)}</div>
+                <div class="score" style="color:${color}">${best.score}% · ${verdict}</div>
+                ${alts.length > 1 ? `<div class="alts">Other guesses: ${alts.filter(a => a !== best.raw).map(escapeHtml).join(' · ')}</div>` : ''}`;
+        }
+
+        // ---------- Free speaking mode ----------
+        let freeRec = null, freeFinal = '';
+        $('free-toggle').onclick = () => {
+            if (freeRec) { freeRec.stop(); return; }
+            const rec = new SpeechRecognition();
+            rec.lang = 'zh-CN';
+            rec.interimResults = true;
+            rec.continuous = true;
+            freeRec = rec;
+            const btn = $('free-toggle');
+            btn.classList.add('recording');
+            btn.textContent = '⏹ Stop';
+
+            rec.onresult = (e) => {
+                let interim = '';
+                for (let k = e.resultIndex; k < e.results.length; k++) {
+                    if (e.results[k].isFinal) freeFinal += e.results[k][0].transcript + '\n';
+                    else interim += e.results[k][0].transcript;
+                }
+                $('free-output').innerHTML = escapeHtml(freeFinal) + `<span class="interim">${escapeHtml(interim)}</span>`;
+            };
+            rec.onerror = (e) => { if (e.error !== 'no-speech') alert('Speech recognition error: ' + e.error); };
+            rec.onend = () => {
+                freeRec = null;
+                btn.classList.remove('recording');
+                btn.textContent = '🎤 Start';
+            };
+            rec.start();
+        };
+        $('free-play').onclick = () => say(freeFinal.trim());
+        $('free-clear').onclick = () => { freeFinal = ''; $('free-output').innerHTML = ''; };
+
+        // ---------- Tabs ----------
+        document.querySelectorAll('.tab').forEach(tab => tab.onclick = () => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t === tab));
+            ['learn', 'practice', 'free'].forEach(m => $('mode-' + m).classList.toggle('hidden', tab.dataset.mode !== m));
+            if (practiceRec) practiceRec.stop();
+            if (freeRec) freeRec.stop();
+            if (learnRec) learnRec.abort();
+        });
+
+        render();
+
+        // =====================================================================
+        // Learn mode: a structured course with lessons, exercises and progress
+        // =====================================================================
+        const W = (hz, py, en, pt) => ({ hz, py, en, pt });
+        const S = (tokens, py, en, pt) => ({ tokens, hz: tokens.join(''), py, en, pt, sentence: true });
+
+        const COURSE = [
+            {
+                en: 'Greetings', pt: 'Saudações', lessons: [
+                    {
+                        words: [W('你好', 'nǐ hǎo', 'hello', 'olá'), W('谢谢', 'xièxie', 'thank you', 'obrigado'),
+                        W('再见', 'zàijiàn', 'goodbye', 'tchau'), W('不客气', 'bú kèqi', "you're welcome", 'de nada')],
+                        sentences: [],
+                    },
+                    {
+                        words: [W('我', 'wǒ', 'I / me', 'eu'), W('你', 'nǐ', 'you', 'você'), W('很', 'hěn', 'very', 'muito'),
+                        W('好', 'hǎo', 'good', 'bom'), W('吗', 'ma', '(question particle)', '(partícula de pergunta)')],
+                        sentences: [S(['你', '好', '吗'], 'nǐ hǎo ma', 'How are you?', 'Como vai?'),
+                        S(['我', '很', '好'], 'wǒ hěn hǎo', "I'm very well", 'Estou muito bem')],
+                    },
+                    {
+                        words: [W('对不起', 'duìbuqǐ', 'sorry', 'desculpe'), W('没关系', 'méi guānxi', "it's okay", 'tudo bem'),
+                        W('早上好', 'zǎoshang hǎo', 'good morning', 'bom dia'), W('晚安', "wǎn'ān", 'good night', 'boa noite')],
+                        sentences: [S(['谢谢', '你'], 'xièxie nǐ', 'Thank you', 'Obrigado a você')],
+                    },
+                ],
+            },
+            {
+                en: 'People', pt: 'Pessoas', lessons: [
+                    {
+                        words: [W('是', 'shì', 'to be', 'ser'), W('人', 'rén', 'person', 'pessoa'), W('中国', 'Zhōngguó', 'China', 'China'),
+                        W('巴西', 'Bāxī', 'Brazil', 'Brasil'), W('他', 'tā', 'he', 'ele'), W('她', 'tā', 'she', 'ela')],
+                        sentences: [S(['我', '是', '巴西', '人'], 'wǒ shì Bāxī rén', 'I am Brazilian', 'Eu sou brasileiro'),
+                        S(['她', '是', '中国', '人'], 'tā shì Zhōngguó rén', 'She is Chinese', 'Ela é chinesa')],
+                    },
+                    {
+                        words: [W('叫', 'jiào', 'to be called', 'chamar-se'), W('什么', 'shénme', 'what', 'o quê'),
+                        W('名字', 'míngzi', 'name', 'nome'), W('不', 'bù', 'not', 'não'),
+                        W('老师', 'lǎoshī', 'teacher', 'professor'), W('学生', 'xuésheng', 'student', 'aluno')],
+                        sentences: [S(['你', '叫', '什么', '名字'], 'nǐ jiào shénme míngzi', "What's your name?", 'Qual é o seu nome?'),
+                        S(['他', '不', '是', '老师'], 'tā bú shì lǎoshī', 'He is not a teacher', 'Ele não é professor'),
+                        S(['我', '是', '学生'], 'wǒ shì xuésheng', 'I am a student', 'Eu sou aluno')],
+                    },
+                ],
+            },
+            {
+                en: 'Numbers', pt: 'Números', lessons: [
+                    {
+                        words: [W('一', 'yī', 'one', 'um'), W('二', 'èr', 'two', 'dois'), W('三', 'sān', 'three', 'três'),
+                        W('四', 'sì', 'four', 'quatro'), W('五', 'wǔ', 'five', 'cinco')],
+                        sentences: [],
+                    },
+                    {
+                        words: [W('六', 'liù', 'six', 'seis'), W('七', 'qī', 'seven', 'sete'), W('八', 'bā', 'eight', 'oito'),
+                        W('九', 'jiǔ', 'nine', 'nove'), W('十', 'shí', 'ten', 'dez')],
+                        sentences: [],
+                    },
+                    {
+                        words: [W('有', 'yǒu', 'to have', 'ter'), W('个', 'gè', '(measure word)', '(classificador)'),
+                        W('几', 'jǐ', 'how many (small number)', 'quantos (poucos)'), W('多少', 'duōshao', 'how many / how much', 'quanto(s)'),
+                        W('钱', 'qián', 'money', 'dinheiro')],
+                        sentences: [S(['多少', '钱'], 'duōshao qián', 'How much is it?', 'Quanto custa?'),
+                        S(['我', '有', '五', '个', '学生'], 'wǒ yǒu wǔ ge xuésheng', 'I have five students', 'Eu tenho cinco alunos')],
+                    },
+                ],
+            },
+            {
+                en: 'Food & drink', pt: 'Comida e bebida', lessons: [
+                    {
+                        words: [W('吃', 'chī', 'to eat', 'comer'), W('喝', 'hē', 'to drink', 'beber'), W('水', 'shuǐ', 'water', 'água'),
+                        W('茶', 'chá', 'tea', 'chá'), W('咖啡', 'kāfēi', 'coffee', 'café')],
+                        sentences: [S(['我', '喝', '茶'], 'wǒ hē chá', 'I drink tea', 'Eu bebo chá'),
+                        S(['他', '不', '喝', '咖啡'], 'tā bù hē kāfēi', "He doesn't drink coffee", 'Ele não bebe café')],
+                    },
+                    {
+                        words: [W('想', 'xiǎng', 'to want / to think', 'querer / pensar'), W('要', 'yào', 'to want / will', 'querer / ir (futuro)'),
+                        W('米饭', 'mǐfàn', 'rice', 'arroz'), W('面条', 'miàntiáo', 'noodles', 'macarrão'),
+                        W('呢', 'ne', 'and…? (follow-up question)', 'e…? (pergunta de volta)')],
+                        sentences: [S(['我', '想', '喝', '水'], 'wǒ xiǎng hē shuǐ', 'I want to drink water', 'Eu quero beber água'),
+                        S(['你', '要', '米饭', '吗'], 'nǐ yào mǐfàn ma', 'Do you want rice?', 'Você quer arroz?'),
+                        S(['你', '呢'], 'nǐ ne', 'And you?', 'E você?')],
+                    },
+                ],
+            },
+            {
+                en: 'Places', pt: 'Lugares', lessons: [
+                    {
+                        words: [W('在', 'zài', 'at / in', 'em / estar em'), W('家', 'jiā', 'home', 'casa'), W('学校', 'xuéxiào', 'school', 'escola'),
+                        W('哪里', 'nǎlǐ', 'where', 'onde'), W('这里', 'zhèlǐ', 'here', 'aqui')],
+                        sentences: [S(['你', '在', '哪里'], 'nǐ zài nǎlǐ', 'Where are you?', 'Onde você está?'),
+                        S(['我', '在', '家'], 'wǒ zài jiā', "I'm at home", 'Estou em casa'),
+                        S(['老师', '在', '学校'], 'lǎoshī zài xuéxiào', 'The teacher is at school', 'O professor está na escola')],
+                    },
+                    {
+                        words: [W('去', 'qù', 'to go', 'ir'), W('来', 'lái', 'to come', 'vir'), W('商店', 'shāngdiàn', 'shop', 'loja'),
+                        W('医院', 'yīyuàn', 'hospital', 'hospital'), W('我们', 'wǒmen', 'we / us', 'nós')],
+                        sentences: [S(['我们', '去', '商店'], 'wǒmen qù shāngdiàn', "We're going to the shop", 'Nós vamos à loja'),
+                        S(['你', '去', '哪里'], 'nǐ qù nǎlǐ', 'Where are you going?', 'Aonde você vai?'),
+                        S(['他', '来', '这里'], 'tā lái zhèlǐ', 'He comes here', 'Ele vem aqui')],
+                    },
+                ],
+            },
+            {
+                en: 'Time', pt: 'Tempo', lessons: [
+                    {
+                        words: [W('今天', 'jīntiān', 'today', 'hoje'), W('明天', 'míngtiān', 'tomorrow', 'amanhã'),
+                        W('昨天', 'zuótiān', 'yesterday', 'ontem'), W('现在', 'xiànzài', 'now', 'agora'), W('点', 'diǎn', "o'clock", 'hora(s)')],
+                        sentences: [S(['现在', '几', '点'], 'xiànzài jǐ diǎn', 'What time is it now?', 'Que horas são agora?'),
+                        S(['明天', '我', '去', '学校'], 'míngtiān wǒ qù xuéxiào', "Tomorrow I'm going to school", 'Amanhã eu vou à escola')],
+                    },
+                    {
+                        words: [W('年', 'nián', 'year', 'ano'), W('月', 'yuè', 'month', 'mês'), W('号', 'hào', 'day of the month', 'dia (do mês)'),
+                        W('星期', 'xīngqī', 'week', 'semana'), W('天', 'tiān', 'day', 'dia')],
+                        sentences: [S(['今天', '几', '号'], 'jīntiān jǐ hào', "What's the date today?", 'Que dia é hoje?'),
+                        S(['今天', '星期', '一'], 'jīntiān xīngqī yī', 'Today is Monday', 'Hoje é segunda-feira')],
+                    },
+                ],
+            },
+        ];
+
+        // Flatten lessons with ids and the vocabulary available up to each lesson.
+        const LESSONS = [];
+        COURSE.forEach((unit, u) => unit.lessons.forEach((l, i) => {
+            l.id = `${u}-${i}`; l.unit = unit; l.num = i + 1; l.order = LESSONS.length;
+            LESSONS.push(l);
+        }));
+        const wordsUpTo = (order) => LESSONS.slice(0, order + 1).flatMap(l => l.words);
+
+        // ---------- Saved progress ----------
+        const STORE = 'zh-learn-v1';
+        const progress = Object.assign(
+            { done: {}, xp: 0, streak: 0, lastDay: null, words: {}, lang: 'en', speak: true, speakOffUntil: 0 },
+            JSON.parse(localStorage.getItem(STORE) || '{}'));
+        const save = () => localStorage.setItem(STORE, JSON.stringify(progress));
+
+        const dayStr = (d) => d.toLocaleDateString('en-CA');
+        const today = () => dayStr(new Date());
+        const yesterday = () => dayStr(new Date(Date.now() - 864e5));
+        const currentStreak = () => (progress.lastDay === today() || progress.lastDay === yesterday()) ? progress.streak : 0;
+
+        const meaning = (item) => item[progress.lang] || item.en;
+        const shuffle = (arr) => { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]]; } return a; };
+        const sample = (arr, n) => shuffle(arr).slice(0, n);
+        const canSpeak = () => !!SpeechRecognition && progress.speak && Date.now() > progress.speakOffUntil;
+        const canListen = () => { if ('speechSynthesis' in window) pickVoice(); return !!zhVoice; };
+
+        // ---------- Course path ----------
+        function renderPath() {
+            const firstOpen = LESSONS.find(l => !progress.done[l.id]);
+            const learned = LESSONS.filter(l => progress.done[l.id]).flatMap(l => l.words).length;
+            let html = `
+                <div class="topstats">
+                    <span class="pill">🔥 ${currentStreak()} day streak</span>
+                    <span class="pill">⭐ ${progress.xp} XP</span>
+                    <span class="pill">📖 ${learned} words</span>
+                </div>
+                <div class="topstats">
+                    <label>Translations
+                        <select id="lang-sel"><option value="en">English</option><option value="pt">Português</option></select></label>
+                    <label><input type="checkbox" id="speak-sel"> Speaking exercises</label>
+                </div>`;
+            if (learned) html += `<button class="btn review-btn" id="review-btn">🔁 Practice weak words</button>`;
+            COURSE.forEach((unit, u) => {
+                html += `<div class="unit"><h3>Unit ${u + 1} · ${escapeHtml(meaning(unit))}</h3><div class="lessons">`;
+                unit.lessons.forEach(l => {
+                    const done = !!progress.done[l.id];
+                    const locked = !done && l !== firstOpen;
+                    html += `<button class="lesson-btn ${done ? 'done' : ''} ${l === firstOpen ? 'current' : ''}" data-id="${l.id}" ${locked ? 'disabled' : ''}>
+                        <div class="name">Lesson ${l.num}</div>
+                        <div class="words">${l.words.map(w => escapeHtml(w.hz)).join('、')}</div></button>`;
+                });
+                html += `</div></div>`;
+            });
+            $('learn-path').innerHTML = html;
+            $('lang-sel').value = progress.lang;
+            $('lang-sel').onchange = (e) => { progress.lang = e.target.value; save(); renderPath(); };
+            $('speak-sel').checked = progress.speak && !!SpeechRecognition;
+            $('speak-sel').disabled = !SpeechRecognition;
+            $('speak-sel').onchange = (e) => { progress.speak = e.target.checked; progress.speakOffUntil = 0; save(); };
+            if ($('review-btn')) $('review-btn').onclick = startReview;
+            document.querySelectorAll('.lesson-btn').forEach(b => b.onclick = () => startLesson(LESSONS.find(l => l.id === b.dataset.id)));
+        }
+
+        // ---------- Exercise generation ----------
+        function lessonExercises(l) {
+            const ex = [];
+            // Introduce each new word, immediately followed by a quick check.
+            l.words.forEach(w => { ex.push({ type: 'intro', item: w }); ex.push({ type: 'meaning', item: w }); });
+            // Mixed review of the new words.
+            const mixed = [];
+            l.words.forEach(w => {
+                mixed.push({ type: 'reverse', item: w });
+                mixed.push({ type: 'pinyin', item: w });
+                if (canListen()) mixed.push({ type: 'listen', item: w });
+            });
+            ex.push(...shuffle(mixed));
+            l.sentences.forEach(s => {
+                ex.push({ type: 'build', item: s });
+                if (canListen()) ex.push({ type: 'listenbuild', item: s });
+            });
+            // Finish with speaking: sentences if any, otherwise a couple of words.
+            if (canSpeak()) sample(l.sentences.length ? l.sentences : l.words, 2).forEach(it => ex.push({ type: 'speak', item: it }));
+            return ex;
+        }
+
+        function reviewExercises() {
+            const doneLessons = LESSONS.filter(l => progress.done[l.id]);
+            const words = doneLessons.flatMap(l => l.words);
+            const weakest = shuffle(words).sort((a, b) => (progress.words[a.hz] || 0) - (progress.words[b.hz] || 0)).slice(0, 8);
+            const types = ['meaning', 'reverse', 'pinyin'].concat(canListen() ? ['listen'] : []);
+            const ex = weakest.map(w => ({ type: types[Math.floor(Math.random() * types.length)], item: w }));
+            sample(doneLessons.flatMap(l => l.sentences), 2).forEach(s => ex.push({ type: canListen() && Math.random() < .5 ? 'listenbuild' : 'build', item: s }));
+            if (canSpeak()) sample(weakest, 1).forEach(w => ex.push({ type: 'speak', item: w }));
+            return shuffle(ex);
+        }
+
+        // Pinyin distractors that differ only in tone (e.g. mā → má, mǎ, mà) to train tone recognition.
+        const TONES = { a: 'āáǎà', e: 'ēéěè', i: 'īíǐì', o: 'ōóǒò', u: 'ūúǔù', ü: 'ǖǘǚǜ' };
+        function toneVariants(py) {
+            const chars = [...py];
+            for (let i = 0; i < chars.length; i++) {
+                for (const [base, marks] of Object.entries(TONES)) {
+                    const t = marks.indexOf(chars[i]);
+                    if (t === -1) continue;
+                    return [...marks].filter((_, k) => k !== t).map(m => { const c = [...chars]; c[i] = m; return c.join(''); });
+                }
+            }
+            return [];
+        }
+
+        // ---------- Lesson runner ----------
+        let lesson = null, learnRec = null;
+
+        function startLesson(l) { runLesson(lessonExercises(l), l); }
+        function startReview() { runLesson(reviewExercises(), null); }
+
+        function runLesson(exercises, l) {
+            lesson = {
+                l, queue: exercises, pos: 0, correct: 0, mistakes: 0,
+                pool: l ? wordsUpTo(l.order) : LESSONS.filter(x => progress.done[x.id]).flatMap(x => x.words),
+            };
+            $('learn-path').classList.add('hidden');
+            $('learn-lesson').classList.remove('hidden');
+            showExercise();
+        }
+
+        $('lesson-quit').onclick = () => {
+            if (!confirm('Quit this lesson? Progress in this lesson will be lost.')) return;
+            exitLesson();
+        };
+
+        function exitLesson() {
+            if (learnRec) learnRec.abort();
+            lesson = null;
+            $('learn-lesson').classList.add('hidden');
+            $('learn-path').classList.remove('hidden');
+            renderPath();
+        }
+
+        function setAction(label, enabled, state) {
+            const b = $('action');
+            b.textContent = label;
+            b.disabled = !enabled;
+            b.dataset.state = state;
+        }
+
+        function setFeedback(kind, html) {
+            $('feedback').className = 'feedback ' + (kind || '');
+            $('feedback-msg').innerHTML = html || '';
+        }
+
+        // Picks n distractors from the vocabulary pool that can't be confused with the answer.
+        function distractors(item, n, key) {
+            const seen = new Set([key === 'meaning' ? meaning(item) : item[key]]);
+            const cands = shuffle(lesson.pool.concat(LESSONS.flatMap(l => l.words)))
+                .filter(w => w.hz !== item.hz && w.py !== item.py && meaning(w) !== meaning(item));
+            const out = [];
+            for (const w of cands) {
+                const v = key === 'meaning' ? meaning(w) : w[key];
+                if (!seen.has(v)) { seen.add(v); out.push(v); }
+                if (out.length === n) break;
+            }
+            return out;
+        }
+
+        // Answers can't be changed once checked.
+        const locked = () => $('action').dataset.state !== 'check';
+
+        function showExercise() {
+            if (lesson.pos >= lesson.queue.length) return finishLesson();
+            $('lesson-bar').style.width = (lesson.pos / lesson.queue.length * 100) + '%';
+            const ex = lesson.queue[lesson.pos];
+            const it = ex.item;
+            const area = $('ex-area');
+            setFeedback('', '');
+            setAction('Check', false, 'check');
+            ex.answer = null;
+
+            const choice = (prompt, top, answer, opts, zh) => {
+                area.innerHTML = `<div class="ex-prompt">${prompt}</div>${top}<div class="options"></div>`;
+                const box = area.querySelector('.options');
+                shuffle([answer, ...opts]).forEach(o => {
+                    const b = document.createElement('button');
+                    b.className = 'option' + (zh ? ' zh' : '');
+                    b.textContent = o;
+                    b.onclick = () => {
+                        if (locked()) return;
+                        box.querySelectorAll('.option').forEach(x => x.classList.remove('selected'));
+                        b.classList.add('selected');
+                        ex.answer = o;
+                        setAction('Check', true, 'check');
+                    };
+                    box.appendChild(b);
+                });
+                ex.correct = () => ex.answer === answer;
+            };
+            const big = (text, sound = true) => `<div class="ex-big">${escapeHtml(text)}</div>` +
+                (sound && canListen() ? `<button class="btn sound-btn" data-say="${escapeHtml(it.hz)}">🔊</button>` : '');
+
+            switch (ex.type) {
+                case 'intro':
+                    area.innerHTML = `<div class="ex-prompt">✨ New word</div>${big(it.hz)}
+                        <div class="ex-sub">${escapeHtml(it.py)}</div><div class="ex-mean">${escapeHtml(meaning(it))}</div>`;
+                    setAction('Continue', true, 'next');
+                    say(it.hz);
+                    break;
+                case 'meaning':
+                    choice('What does this mean?', big(it.hz), meaning(it), distractors(it, 3, 'meaning'));
+                    break;
+                case 'reverse':
+                    choice(`Which one means “${escapeHtml(meaning(it))}”?`, '', it.hz, distractors(it, 3, 'hz'), true);
+                    break;
+                case 'pinyin': {
+                    let opts = toneVariants(it.py);
+                    if (opts.length < 3) opts = opts.concat(distractors(it, 3 - opts.length, 'py'));
+                    choice('Choose the correct pinyin — watch the tones!', big(it.hz, false), it.py, opts);
+                    break;
+                }
+                case 'listen':
+                    choice('Tap what you hear', `<button class="btn sound-btn" data-say="${escapeHtml(it.hz)}">🔊</button>`,
+                        it.hz, distractors(it, 3, 'hz'), true);
+                    say(it.hz);
+                    break;
+                case 'build':
+                case 'listenbuild': {
+                    const prompt = ex.type === 'build'
+                        ? `Translate: “${escapeHtml(meaning(it))}”`
+                        : `Tap what you hear <button class="btn" data-say="${escapeHtml(it.hz)}">🔊</button>`;
+                    area.innerHTML = `<div class="ex-prompt">${prompt}</div><div class="answer-row"></div><div class="tile-bank"></div>`;
+                    const extra = distractors({ hz: it.hz, py: it.py, en: '', pt: '' }, 3, 'hz').filter(h => !it.tokens.includes(h));
+                    const row = area.querySelector('.answer-row'), bank = area.querySelector('.tile-bank');
+                    const picked = [];
+                    const update = () => {
+                        row.innerHTML = '';
+                        picked.forEach((src, k) => {
+                            const t = document.createElement('button');
+                            t.className = 'tile';
+                            t.textContent = src.textContent;
+                            t.onclick = () => { if (locked()) return; src.classList.remove('used'); picked.splice(k, 1); update(); };
+                            row.appendChild(t);
+                        });
+                        ex.answer = picked.map(p => p.textContent).join('');
+                        setAction('Check', picked.length > 0, 'check');
+                    };
+                    shuffle([...it.tokens, ...extra]).forEach(tok => {
+                        const t = document.createElement('button');
+                        t.className = 'tile';
+                        t.textContent = tok;
+                        t.onclick = () => { if (locked() || t.classList.contains('used')) return; t.classList.add('used'); picked.push(t); update(); };
+                        bank.appendChild(t);
+                    });
+                    ex.correct = () => ex.answer === it.hz;
+                    if (ex.type === 'listenbuild') say(it.hz);
+                    break;
+                }
+                case 'speak':
+                    area.innerHTML = `<div class="ex-prompt">🎤 Say this out loud</div>${big(it.hz)}
+                        <div class="ex-sub">${escapeHtml(it.py)}</div><div class="ex-mean">${escapeHtml(meaning(it))}</div>
+                        <div class="buttons"><button class="btn primary" id="learn-mic">🎤 Tap to speak</button></div>
+                        <div class="toggle-row"><button class="link-btn" id="learn-skip">Can't speak now (off for 15 min)</button></div>`;
+                    setAction('Skip', true, 'skip');
+                    $('learn-mic').onclick = () => listenFor(ex);
+                    $('learn-skip').onclick = () => {
+                        progress.speakOffUntil = Date.now() + 15 * 60e3; save();
+                        lesson.queue = lesson.queue.filter((e, k) => k <= lesson.pos || e.type !== 'speak');
+                        next();
+                    };
+                    break;
+            }
+            area.querySelectorAll('[data-say]').forEach(b => b.onclick = () => say(b.dataset.say));
+        }
+
+        function listenFor(ex) {
+            if (learnRec) { learnRec.stop(); return; }
+            const rec = new SpeechRecognition();
+            rec.lang = 'zh-CN';
+            rec.interimResults = false;
+            rec.maxAlternatives = 5;
+            learnRec = rec;
+            const mic = $('learn-mic');
+            mic.classList.add('recording');
+            mic.textContent = '⏹ Listening…';
+            let result = null;
+            rec.onresult = (e) => { result = e.results[0]; };
+            rec.onerror = (e) => {
+                setFeedback('', e.error === 'no-speech' ? "Didn't hear anything — try again." :
+                    e.error === 'not-allowed' ? 'Microphone blocked. Allow it in the address bar, or skip.' : 'Recognition error: ' + escapeHtml(e.error));
+            };
+            rec.onend = () => {
+                learnRec = null;
+                if (!mic.isConnected) return;
+                mic.classList.remove('recording');
+                mic.textContent = '🎤 Tap to speak';
+                if (!result) return;
+                const target = normalize(ex.item.hz);
+                let best = { score: -1, raw: '' };
+                for (let k = 0; k < result.length; k++) {
+                    const s = compare(target, normalize(convertNumbers(result[k].transcript))).score;
+                    if (s > best.score) best = { score: s, raw: result[k].transcript };
+                }
+                ex.heard = best;
+                ex.correct = () => best.score >= 60;
+                check();
+            };
+            rec.start();
+        }
+
+        function check() {
+            const ex = lesson.queue[lesson.pos];
+            const it = ex.item;
+            const ok = ex.correct();
+            const strength = progress.words[it.hz] || 0;
+            if (!it.sentence) progress.words[it.hz] = Math.max(0, strength + (ok ? 1 : -1));
+            const answerLine = `<span class="zh">${escapeHtml(it.hz)}</span> · ${escapeHtml(it.py)}<small>${escapeHtml(meaning(it))}</small>`;
+            if (ex.type === 'speak') {
+                const heard = `<small>Heard: <span class="zh">${escapeHtml(ex.heard.raw)}</span> (${ex.heard.score}%)</small>`;
+                setFeedback(ok ? 'good' : 'bad', (ok ? '🎉 Great pronunciation!' : 'Not quite — listen and try again later.') + heard);
+            } else {
+                setFeedback(ok ? 'good' : 'bad', (ok ? '✅ Correct! ' : '❌ Correct answer: ') + answerLine);
+            }
+            if (ok) lesson.correct++;
+            else {
+                lesson.mistakes++;
+                if (ex.type !== 'speak') lesson.queue.push({ type: ex.type, item: it }); // retry at the end
+            }
+            say(it.hz);
+            setAction('Continue', true, 'next');
+            save();
+        }
+
+        function next() { lesson.pos++; showExercise(); }
+
+        $('action').onclick = () => {
+            const state = $('action').dataset.state;
+            if (state === 'check') check();
+            else if (state === 'finish') exitLesson();
+            else next();
+        };
+
+        function finishLesson() {
+            $('lesson-bar').style.width = '100%';
+            const graded = lesson.correct + lesson.mistakes;
+            const accuracy = graded ? Math.round(lesson.correct / graded * 100) : 100;
+            const xp = 10 + (lesson.mistakes === 0 ? 5 : 0);
+            progress.xp += xp;
+            if (lesson.l) progress.done[lesson.l.id] = Math.max(progress.done[lesson.l.id] || 0, accuracy);
+            if (progress.lastDay !== today()) {
+                progress.streak = progress.lastDay === yesterday() ? progress.streak + 1 : 1;
+                progress.lastDay = today();
+            }
+            save();
+            $('ex-area').innerHTML = `<div class="ex-big">🎉</div>
+                <div class="ex-prompt" style="text-align:center">${lesson.l ? 'Lesson complete!' : 'Review complete!'}</div>
+                <div class="stats" style="font-size:1.05rem">
+                    <span>⭐ +${xp} XP</span><span>🎯 ${accuracy}% accuracy</span><span>🔥 ${progress.streak} day streak</span></div>`;
+            setFeedback('', '');
+            setAction('Continue', true, 'finish');
+        }
+
+        renderPath();
+    </script>
+</body>
+
+</html>
