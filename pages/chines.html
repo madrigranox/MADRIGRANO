@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中文 Speaking Practice — Mandarin Voice Recognition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --panel: #1e293b;
+            --panel-2: #273449;
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --accent: #ef4444;
+            --good: #22c55e;
+            --bad: #f87171;
+            --warn: #facc15;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        header {
+            padding: 24px 20px 8px;
+            text-align: center;
+        }
+
+        header h1 { margin: 0; font-size: 1.6rem; }
+        header p { margin: 6px 0 0; color: var(--muted); font-size: .95rem; }
+
+        main {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 16px 20px 48px;
+        }
+
+        .warning {
+            display: none;
+            background: #451a03;
+            border: 1px solid #b45309;
+            color: #fde68a;
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            font-size: .9rem;
+        }
+
+        .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+
+        .tab {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #334155;
+            background: var(--panel);
+            color: var(--muted);
+            border-radius: 10px;
+            cursor: pointer;
+            font: inherit;
+            font-weight: 600;
+        }
+
+        .tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+        .card {
+            background: var(--panel);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+
+        .controls-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        select {
+            background: var(--panel-2);
+            color: var(--text);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 8px 10px;
+            font: inherit;
+        }
+
+        .counter { color: var(--muted); font-size: .9rem; }
+
+        .hanzi {
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 3rem;
+            text-align: center;
+            letter-spacing: .08em;
+            margin: 8px 0;
+        }
+
+        .pinyin { text-align: center; font-size: 1.25rem; color: var(--warn); }
+        .meaning { text-align: center; color: var(--muted); margin-top: 6px; }
+
+        .toggle-row { text-align: center; margin-top: 10px; font-size: .85rem; color: var(--muted); }
+        .toggle-row label { cursor: pointer; margin: 0 8px; }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        button.btn {
+            border: none;
+            border-radius: 999px;
+            padding: 12px 20px;
+            font: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            background: var(--panel-2);
+            color: var(--text);
+        }
+
+        button.btn:disabled { opacity: .4; cursor: not-allowed; }
+        button.btn.primary { background: var(--accent); color: white; }
+        button.btn.recording { animation: pulse 1s infinite; background: #b91c1c; color: white; }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, .6); }
+            50% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
+        }
+
+        .result { margin-top: 20px; text-align: center; min-height: 90px; }
+        .heard { font-family: 'Noto Sans SC', sans-serif; font-size: 1.8rem; margin: 6px 0; }
+        .heard .ok { color: var(--good); }
+        .heard .miss { color: var(--bad); text-decoration: underline wavy; }
+        .label { color: var(--muted); font-size: .85rem; }
+        .score { font-size: 1.3rem; font-weight: 700; margin-top: 6px; }
+        .alts { color: var(--muted); font-size: .85rem; margin-top: 6px; font-family: 'Noto Sans SC', sans-serif; }
+
+        .free-output {
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 1.6rem;
+            min-height: 120px;
+            background: var(--panel-2);
+            border-radius: 12px;
+            padding: 16px;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
+        .free-output .interim { color: var(--muted); }
+
+        .stats { display: flex; gap: 12px; justify-content: center; color: var(--muted); font-size: .9rem; }
+
+        .hidden { display: none !important; }
+
+        footer { text-align: center; color: var(--muted); font-size: .8rem; padding-bottom: 24px; }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>🎙️ 中文 Speaking Practice</h1>
+        <p>Listen, repeat, and get instant feedback from Mandarin voice recognition.</p>
+    </header>
+
+    <main>
+        <div class="warning" id="support-warning">
+            Speech recognition isn't available in this browser. Use <strong>Google Chrome</strong> or
+            <strong>Microsoft Edge</strong> (desktop or Android), or <strong>Safari</strong> on iPhone/Mac, and allow microphone
+            access. The page must be opened via <code>https://</code> or <code>localhost</code>, not directly as a file.
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" data-mode="practice">Phrase practice</button>
+            <button class="tab" data-mode="free">Free speaking</button>
+        </div>
+
+        <!-- Phrase practice mode -->
+        <section id="mode-practice">
+            <div class="card">
+                <div class="controls-row">
+                    <select id="category"></select>
+                    <span class="counter" id="counter"></span>
+                </div>
+
+                <div class="hanzi" id="hanzi"></div>
+                <div class="pinyin" id="pinyin"></div>
+                <div class="meaning" id="meaning"></div>
+
+                <div class="toggle-row">
+                    <label><input type="checkbox" id="show-pinyin" checked> Pinyin</label>
+                    <label><input type="checkbox" id="show-meaning" checked> Translation</label>
+                    <label>Voice speed
+                        <select id="rate">
+                            <option value="0.6">Slow</option>
+                            <option value="0.85" selected>Normal</option>
+                            <option value="1">Native</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="buttons">
+                    <button class="btn" id="prev">◀ Prev</button>
+                    <button class="btn" id="listen">🔊 Listen</button>
+                    <button class="btn primary" id="speak">🎤 Speak</button>
+                    <button class="btn" id="next">Next ▶</button>
+                </div>
+
+                <div class="result" id="result"></div>
+            </div>
+
+            <div class="stats">
+                <span>Attempts: <strong id="stat-attempts">0</strong></span>
+                <span>Perfect: <strong id="stat-perfect">0</strong></span>
+                <span>Average: <strong id="stat-avg">–</strong></span>
+            </div>
+        </section>
+
+        <!-- Free speaking mode -->
+        <section id="mode-free" class="hidden">
+            <div class="card">
+                <p class="label">Say anything in Mandarin. What the recognizer understood appears below.</p>
+                <div class="free-output" id="free-output"></div>
+                <div class="buttons">
+                    <button class="btn primary" id="free-toggle">🎤 Start</button>
+                    <button class="btn" id="free-play">🔊 Read back</button>
+                    <button class="btn" id="free-clear">Clear</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>Uses your browser's built-in speech recognition (zh-CN). Audio is processed by your browser's speech service.</footer>
+
+    <script>
+        const PHRASES = {
+            'Greetings': [
+                ['你好', 'nǐ hǎo', 'Hello / Olá'],
+                ['谢谢', 'xièxie', 'Thank you / Obrigado'],
+                ['不客气', 'bú kèqi', "You're welcome / De nada"],
+                ['对不起', 'duìbuqǐ', 'Sorry / Desculpe'],
+                ['没关系', 'méi guānxi', "It's okay / Tudo bem"],
+                ['再见', 'zàijiàn', 'Goodbye / Tchau'],
+                ['早上好', 'zǎoshang hǎo', 'Good morning / Bom dia'],
+                ['晚安', 'wǎn\'ān', 'Good night / Boa noite'],
+                ['你好吗', 'nǐ hǎo ma', 'How are you? / Como vai?'],
+                ['我很好', 'wǒ hěn hǎo', "I'm fine / Estou bem"],
+            ],
+            'Introductions': [
+                ['我叫卢卡斯', 'wǒ jiào Lúkǎsī', 'My name is Luccas / Meu nome é Luccas'],
+                ['你叫什么名字', 'nǐ jiào shénme míngzi', "What's your name? / Qual é o seu nome?"],
+                ['我是巴西人', 'wǒ shì Bāxī rén', "I'm Brazilian / Sou brasileiro"],
+                ['认识你很高兴', 'rènshi nǐ hěn gāoxìng', 'Nice to meet you / Prazer em conhecê-lo'],
+                ['我在学中文', 'wǒ zài xué Zhōngwén', "I'm learning Chinese / Estou aprendendo chinês"],
+                ['我会说一点中文', 'wǒ huì shuō yìdiǎn Zhōngwén', 'I speak a little Chinese / Falo um pouco de chinês'],
+                ['我是程序员', 'wǒ shì chéngxùyuán', "I'm a programmer / Sou programador"],
+            ],
+            'Numbers': [
+                ['一二三四五', 'yī èr sān sì wǔ', '1 2 3 4 5'],
+                ['六七八九十', 'liù qī bā jiǔ shí', '6 7 8 9 10'],
+                ['一百', 'yìbǎi', '100'],
+                ['多少钱', 'duōshao qián', 'How much? / Quanto custa?'],
+                ['今天几号', 'jīntiān jǐ hào', "What's the date today? / Que dia é hoje?"],
+                ['现在几点', 'xiànzài jǐ diǎn', 'What time is it? / Que horas são?'],
+            ],
+            'Daily life': [
+                ['我想喝水', 'wǒ xiǎng hē shuǐ', 'I want to drink water / Quero beber água'],
+                ['我饿了', 'wǒ è le', "I'm hungry / Estou com fome"],
+                ['洗手间在哪里', 'xǐshǒujiān zài nǎlǐ', 'Where is the bathroom? / Onde fica o banheiro?'],
+                ['我听不懂', 'wǒ tīng bu dǒng', "I don't understand / Não entendo"],
+                ['请再说一遍', 'qǐng zài shuō yí biàn', 'Please say it again / Repita, por favor'],
+                ['请说慢一点', 'qǐng shuō màn yìdiǎn', 'Please speak slower / Fale mais devagar'],
+                ['这个用中文怎么说', 'zhège yòng Zhōngwén zěnme shuō', 'How do you say this in Chinese? / Como se diz isso em chinês?'],
+                ['今天天气很好', 'jīntiān tiānqì hěn hǎo', 'The weather is nice today / O tempo está bom hoje'],
+            ],
+            'Tones (minimal pairs)': [
+                ['妈', 'mā', 'mother (1st tone)'],
+                ['麻', 'má', 'hemp (2nd tone)'],
+                ['马', 'mǎ', 'horse (3rd tone)'],
+                ['骂', 'mà', 'to scold (4th tone)'],
+                ['买', 'mǎi', 'to buy (3rd tone)'],
+                ['卖', 'mài', 'to sell (4th tone)'],
+                ['汤', 'tāng', 'soup (1st tone)'],
+                ['糖', 'táng', 'sugar (2nd tone)'],
+                ['四十四', 'sìshísì', 'forty-four'],
+                ['十四是十四', 'shísì shì shísì', 'fourteen is fourteen (tongue twister)'],
+            ],
+        };
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const $ = (id) => document.getElementById(id);
+
+        if (!SpeechRecognition) {
+            $('support-warning').style.display = 'block';
+            $('speak').disabled = true;
+            $('free-toggle').disabled = true;
+        }
+
+        // ---------- Text-to-speech ----------
+        let zhVoice = null;
+        function pickVoice() {
+            const voices = speechSynthesis.getVoices();
+            zhVoice = voices.find(v => v.lang === 'zh-CN') ||
+                voices.find(v => /^zh/i.test(v.lang) && !/HK|TW/i.test(v.lang)) ||
+                voices.find(v => /^zh/i.test(v.lang)) || null;
+        }
+        if ('speechSynthesis' in window) {
+            pickVoice();
+            speechSynthesis.onvoiceschanged = pickVoice;
+        } else {
+            $('listen').disabled = true;
+            $('free-play').disabled = true;
+        }
+
+        function say(text) {
+            if (!('speechSynthesis' in window) || !text) return;
+            speechSynthesis.cancel();
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = 'zh-CN';
+            if (zhVoice) u.voice = zhVoice;
+            u.rate = parseFloat($('rate').value);
+            speechSynthesis.speak(u);
+        }
+
+        // ---------- Scoring ----------
+        const normalize = (s) => s.replace(/[\s，。！？、,.!?;；：:“”"'‘’（）()]/g, '');
+        const DIGITS = { '0': '零', '1': '一', '2': '二', '3': '三', '4': '四', '5': '五', '6': '六', '7': '七', '8': '八', '9': '九' };
+
+        // Convert simple Arabic numbers the recognizer may output (e.g. "44", "100") into Chinese characters.
+        function numToHanzi(n) {
+            n = parseInt(n, 10);
+            if (isNaN(n) || n > 9999) return null;
+            if (n < 10) return DIGITS[n];
+            const units = [[1000, '千'], [100, '百'], [10, '十']];
+            let out = '', zero = false;
+            for (const [val, ch] of units) {
+                const d = Math.floor(n / val);
+                if (d) {
+                    if (zero) out += '零';
+                    out += (val === 10 && d === 1 && !out ? '' : DIGITS[d]) + ch;
+                    zero = false;
+                } else if (out) zero = true;
+                n %= val;
+            }
+            if (n) out += (zero ? '零' : '') + DIGITS[n];
+            return out;
+        }
+        const convertNumbers = (s) => s.replace(/\d+/g, (m) => numToHanzi(m) ?? m.split('').map(d => DIGITS[d]).join(''));
+
+        // Longest common subsequence: marks which target characters were heard correctly.
+        function compare(target, heard) {
+            const a = [...target], b = [...heard];
+            const dp = Array.from({ length: a.length + 1 }, () => new Array(b.length + 1).fill(0));
+            for (let i = a.length - 1; i >= 0; i--)
+                for (let j = b.length - 1; j >= 0; j--)
+                    dp[i][j] = a[i] === b[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
+            const matched = new Array(a.length).fill(false);
+            let i = 0, j = 0;
+            while (i < a.length && j < b.length) {
+                if (a[i] === b[j]) { matched[i] = true; i++; j++; }
+                else if (dp[i + 1][j] >= dp[i][j + 1]) i++;
+                else j++;
+            }
+            const common = dp[0][0];
+            const score = Math.round((2 * common / (a.length + b.length || 1)) * 100);
+            return { matched, score };
+        }
+
+        // ---------- Practice mode ----------
+        const categorySel = $('category');
+        Object.keys(PHRASES).forEach(c => categorySel.add(new Option(c, c)));
+        let category = categorySel.value, index = 0;
+        const stats = { attempts: 0, perfect: 0, total: 0 };
+
+        function render() {
+            const list = PHRASES[category];
+            const [hz, py, mean] = list[index];
+            $('hanzi').textContent = hz;
+            $('pinyin').textContent = py;
+            $('meaning').textContent = mean;
+            $('pinyin').classList.toggle('hidden', !$('show-pinyin').checked);
+            $('meaning').classList.toggle('hidden', !$('show-meaning').checked);
+            $('counter').textContent = `${index + 1} / ${list.length}`;
+            $('result').innerHTML = '';
+        }
+
+        categorySel.onchange = () => { category = categorySel.value; index = 0; render(); };
+        $('prev').onclick = () => { const n = PHRASES[category].length; index = (index - 1 + n) % n; render(); };
+        $('next').onclick = () => { index = (index + 1) % PHRASES[category].length; render(); };
+        $('listen').onclick = () => say(PHRASES[category][index][0]);
+        $('show-pinyin').onchange = render;
+        $('show-meaning').onchange = render;
+
+        function escapeHtml(s) {
+            return s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+        }
+
+        let practiceRec = null;
+        $('speak').onclick = () => {
+            if (practiceRec) { practiceRec.stop(); return; }
+            speechSynthesis && speechSynthesis.cancel();
+            const rec = new SpeechRecognition();
+            rec.lang = 'zh-CN';
+            rec.interimResults = true;
+            rec.maxAlternatives = 5;
+            rec.continuous = false;
+            practiceRec = rec;
+
+            const btn = $('speak');
+            btn.classList.add('recording');
+            btn.textContent = '⏹ Stop';
+            $('result').innerHTML = '<div class="label">Listening… speak now</div>';
+
+            let finalResult = null;
+            rec.onresult = (e) => {
+                const r = e.results[e.results.length - 1];
+                if (r.isFinal) finalResult = r;
+                else $('result').innerHTML = `<div class="label">Hearing…</div><div class="heard">${escapeHtml(r[0].transcript)}</div>`;
+            };
+            rec.onerror = (e) => {
+                const msg = {
+                    'no-speech': "Didn't hear anything. Try again a bit louder.",
+                    'not-allowed': 'Microphone access was blocked. Allow it in the browser address bar.',
+                    'audio-capture': 'No microphone found.',
+                    'network': 'Network error: the browser speech service needs an internet connection.',
+                }[e.error] || `Error: ${e.error}`;
+                $('result').innerHTML = `<div class="label" style="color:var(--bad)">${msg}</div>`;
+            };
+            rec.onend = () => {
+                practiceRec = null;
+                btn.classList.remove('recording');
+                btn.textContent = '🎤 Speak';
+                if (finalResult) grade(finalResult);
+            };
+            rec.start();
+        };
+
+        function grade(result) {
+            const target = normalize(PHRASES[category][index][0]);
+            // Pick the alternative that best matches the target.
+            let best = null;
+            const alts = [];
+            for (let k = 0; k < result.length; k++) {
+                const heard = normalize(convertNumbers(result[k].transcript));
+                alts.push(result[k].transcript);
+                const cmp = compare(target, heard);
+                if (!best || cmp.score > best.score) best = { ...cmp, heard, raw: result[k].transcript };
+            }
+
+            const targetHtml = [...target].map((ch, i) =>
+                `<span class="${best.matched[i] ? 'ok' : 'miss'}">${escapeHtml(ch)}</span>`).join('');
+            const color = best.score === 100 ? 'var(--good)' : best.score >= 60 ? 'var(--warn)' : 'var(--bad)';
+            const verdict = best.score === 100 ? '完美！Perfect!' : best.score >= 60 ? '很好！Almost there' : '再试一次 — Try again';
+
+            stats.attempts++;
+            stats.total += best.score;
+            if (best.score === 100) stats.perfect++;
+            $('stat-attempts').textContent = stats.attempts;
+            $('stat-perfect').textContent = stats.perfect;
+            $('stat-avg').textContent = Math.round(stats.total / stats.attempts) + '%';
+
+            $('result').innerHTML = `
+                <div class="label">Target (red = not recognized)</div>
+                <div class="heard">${targetHtml}</div>
+                <div class="label">Recognizer heard</div>
+                <div class="heard">${escapeHtml(best.raw)}</div>
+                <div class="score" style="color:${color}">${best.score}% · ${verdict}</div>
+                ${alts.length > 1 ? `<div class="alts">Other guesses: ${alts.filter(a => a !== best.raw).map(escapeHtml).join(' · ')}</div>` : ''}`;
+        }
+
+        // ---------- Free speaking mode ----------
+        let freeRec = null, freeFinal = '';
+        $('free-toggle').onclick = () => {
+            if (freeRec) { freeRec.stop(); return; }
+            const rec = new SpeechRecognition();
+            rec.lang = 'zh-CN';
+            rec.interimResults = true;
+            rec.continuous = true;
+            freeRec = rec;
+            const btn = $('free-toggle');
+            btn.classList.add('recording');
+            btn.textContent = '⏹ Stop';
+
+            rec.onresult = (e) => {
+                let interim = '';
+                for (let k = e.resultIndex; k < e.results.length; k++) {
+                    if (e.results[k].isFinal) freeFinal += e.results[k][0].transcript + '\n';
+                    else interim += e.results[k][0].transcript;
+                }
+                $('free-output').innerHTML = escapeHtml(freeFinal) + `<span class="interim">${escapeHtml(interim)}</span>`;
+            };
+            rec.onerror = (e) => { if (e.error !== 'no-speech') alert('Speech recognition error: ' + e.error); };
+            rec.onend = () => {
+                freeRec = null;
+                btn.classList.remove('recording');
+                btn.textContent = '🎤 Start';
+            };
+            rec.start();
+        };
+        $('free-play').onclick = () => say(freeFinal.trim());
+        $('free-clear').onclick = () => { freeFinal = ''; $('free-output').innerHTML = ''; };
+
+        // ---------- Tabs ----------
+        document.querySelectorAll('.tab').forEach(tab => tab.onclick = () => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t === tab));
+            $('mode-practice').classList.toggle('hidden', tab.dataset.mode !== 'practice');
+            $('mode-free').classList.toggle('hidden', tab.dataset.mode !== 'free');
+            if (practiceRec) practiceRec.stop();
+            if (freeRec) freeRec.stop();
+        });
+
+        render();
+    </script>
+</body>
+
+</html>
